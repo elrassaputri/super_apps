@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
+import 'package:imei_plugin/imei_plugin.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
@@ -19,6 +20,13 @@ class FingerPrintAbsen extends StatefulWidget {
 
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
+
+   getImei() async{
+    
+    var imei = await ImeiPlugin.getImei;
+
+    return imei;
+  }
 
   void _getTime() {
     final DateTime now = DateTime.now();
