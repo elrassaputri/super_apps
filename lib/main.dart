@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/absen_page.dart';
+import 'package:super_apps/ui/main_menu_page.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 
 void main() => runApp(MyApp());
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: new FingerPrintAbsen(),
+      home: new MainMenu(),
     );
   }
 }

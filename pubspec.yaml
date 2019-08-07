@@ -29,6 +29,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
   google_maps_flutter: ^0.5.19+2
+  flutter_staggered_grid_view: ^0.3.0
+  carousel_pro: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,22 @@ flutter:
   assets:
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
+    - assets/images/logo_ta_putih.png
+
+    #image slide show main page
+    - assets/images/quotes_3.jpg
+    - assets/images/tis.jpg
+
+    #icon main menu page
+    - assets/icon/main_menu_page/document_management.png
+    - assets/icon/main_menu_page/finance.png
+    - assets/icon/main_menu_page/human_capital.png
+    - assets/icon/main_menu_page/LINK.png
+    - assets/icon/main_menu_page/oss.png
+    - assets/icon/main_menu_page/project.png
+    - assets/icon/main_menu_page/supply_chain.png
+    - assets/icon/main_menu_page/tools.png
+    - assets/icon/main_menu_page/video.png
   # To add assets to your application, add an assets section, like this:
   #
   #
