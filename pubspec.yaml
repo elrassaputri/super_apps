@@ -31,6 +31,7 @@ dependencies:
   google_maps_flutter: ^0.5.19+2
   flutter_staggered_grid_view: ^0.3.0
   carousel_pro: ^1.0.0
+  flutter_svg: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -49,21 +50,22 @@ flutter:
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
     - assets/images/logo_ta_putih.png
+    - assets/images/bg_apps.png
 
     #image slide show main page
     - assets/images/quotes_3.jpg
     - assets/images/tis.jpg
 
     #icon main menu page
-    - assets/icon/main_menu_page/document_management.png
-    - assets/icon/main_menu_page/finance.png
-    - assets/icon/main_menu_page/human_capital.png
-    - assets/icon/main_menu_page/LINK.png
-    - assets/icon/main_menu_page/oss.png
-    - assets/icon/main_menu_page/project.png
-    - assets/icon/main_menu_page/supply_chain.png
-    - assets/icon/main_menu_page/tools.png
-    - assets/icon/main_menu_page/video.png
+    - assets/icon/main_menu_page/document_management.svg
+    - assets/icon/main_menu_page/finance.svg
+    - assets/icon/main_menu_page/human_capital.svg
+    - assets/icon/main_menu_page/LINK.svg
+    - assets/icon/main_menu_page/oss.svg
+    - assets/icon/main_menu_page/project.svg
+    - assets/icon/main_menu_page/supply_chain.svg
+    - assets/icon/main_menu_page/tools.svg
+    - assets/icon/main_menu_page/video.svg
   # To add assets to your application, add an assets section, like this:
   #
   #
