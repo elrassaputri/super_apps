@@ -5,12 +5,17 @@ import 'package:flutter/material.dart' as prefix0;
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
+import 'package:location/location.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
+String imei;
 
 var absen = 'false';
 bool onLocation = false;
+
+Location location = Location();
+Map<String, double> currentLocation;
 
 class FingerPrintAbsen extends StatefulWidget {
   FingerPrintAbsen({Key key}) : super(key: key);
@@ -21,11 +26,11 @@ class FingerPrintAbsen extends StatefulWidget {
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
 
-   getImei() async{
-    
-    var imei = await ImeiPlugin.getImei;
-
-    return imei;
+   getImei() async{    
+     var imeiId = await ImeiPlugin.getImei;
+     setState(() {
+      imei = imeiId;
+    });
   }
 
   void _getTime() {
@@ -101,6 +106,20 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
+    getImei();
+  }
+
+  authLocation() {
+    var loc;
+    currentLocation == null
+              ? loc = "NOK"
+              : loc = "OK";
+    return loc;
   }
 
   @override
