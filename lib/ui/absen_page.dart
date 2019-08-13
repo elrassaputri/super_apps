@@ -8,7 +8,7 @@ import 'package:imei_plugin/imei_plugin.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
-
+var absenTitle = 'Absen Masuk';
 var absen = 'false';
 bool onLocation = true;
 
@@ -44,32 +44,19 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
       if (absen == 'false') {
         setState(() {
           absen = 'masuk';
+          absenTitle = 'Absen Masuk';
         });
       } else if (absen == 'masuk') {
         setState(() {
           absen = 'pulang';
+          absenTitle = 'Absen Pulang';
         });
       } else {
         setState(() {
           absen = 'false';
+          absenTitle = 'Absen Completed';
         });
       }
-    }
-  }
-
-  Widget _textStatusAbsen() {
-    if (absen == 'false') {
-      return Text('Absen Masuk',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
-    } else if (absen == 'masuk') {
-      return Text('Absen Pulang',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
-    } else if (absen == 'pulang') {
-      return Text('Absen Complete',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
     }
   }
 
@@ -223,7 +210,11 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(top: 32),
-                          child: _textStatusAbsen(),
+                          child: Text(absenTitle,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
                         )
                       ],
                     ),
