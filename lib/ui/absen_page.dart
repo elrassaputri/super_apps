@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
+import 'package:http/http.dart';
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
 import 'package:location/location.dart';
+import 'package:super_apps/api/api.dart' as api;
+import 'package:http/http.dart' as http;
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
+var username = '955139';
 
 var absen = 'false';
 bool onLocation = false;
@@ -25,6 +30,7 @@ class FingerPrintAbsen extends StatefulWidget {
 
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
+  var data;
 
    getImei() async{    
      var imeiId = await ImeiPlugin.getImei;
@@ -112,6 +118,8 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
       });
     });
     getImei();
+    _jenisAbsen();
+    getStatusMasuk();
   }
 
   authLocation() {
@@ -121,6 +129,77 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
               : loc = "OK";
     return loc;
   }
+
+  Future<String> getStatusMasuk() async {
+    var url_api = api.ListApi.status_absen;
+    var response = await http.get(
+      Uri.encodeFull(url_api + username),
+      headers: {
+        "Accept": "application/json"
+      }
+    );
+
+    this.setState(() {
+      data = json.decode(response.body);
+
+      print(data['data'][0]['status_absen']);
+    });
+    
+    
+   }
+
+   statusAbsen() {
+    var status;
+                  data == null
+              ? status = "null"
+              : status = data['data'][0]['status_absen'];
+    return status;
+  }
+
+   _jenisAbsen(){
+      var status = statusAbsen();
+      var jenisAbsen;
+      if (status == 'belum masuk') {
+        setState(() {
+          jenisAbsen = 'masuk';
+        });
+      } else if (status == 'sudah masuk') {
+        setState(() {
+          jenisAbsen = 'pulang';
+        });
+      } else if (status == 'sudah pulang') {
+        setState(() {
+          jenisAbsen = 'complete';
+        });
+      }else{
+        setState(() {
+                  jenisAbsen='null';
+                });
+      }
+          
+      return jenisAbsen;
+    }
+
+
+_postAbsen() async {
+
+  final uri = api.ListApi.absen;
+  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  final encoding = Encoding.getByName('utf-8');
+
+  Response response = await post(
+    uri,
+    headers: headers,
+    body: "nik="+username+"&imei="+imei+"&latitude="+currentLocation["latitude"].toString()+"&longitude="+currentLocation["longitude"].toString()+"&jenis_absen="+_jenisAbsen(),
+    encoding: encoding,
+  );
+
+  int statusCode = response.statusCode;
+  String responseBody = response.body;
+
+  print(responseBody);
+  
+}
 
   @override
   Widget build(BuildContext context) {
