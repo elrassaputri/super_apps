@@ -1,16 +1,27 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
+import 'package:http/http.dart';
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
+import 'package:location/location.dart';
+import 'package:super_apps/api/api.dart' as api;
+import 'package:http/http.dart' as http;
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
-var absenTitle = 'Absen Masuk';
-var absen = 'false';
-bool onLocation = true;
+String imei;
+String jenisAbsen = '';
+String absenTitle = 'Absen Masuk';
+String message = '';
+String username = '955139';
+String onLocation = 'NOK';
+bool changeMessage = false;
+Location location = Location();
+Map<String, double> currentLocation;
 
 class FingerPrintAbsen extends StatefulWidget {
   FingerPrintAbsen({Key key}) : super(key: key);
@@ -20,11 +31,13 @@ class FingerPrintAbsen extends StatefulWidget {
 
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
+  var data;
 
   getImei() async {
-    var imei = await ImeiPlugin.getImei;
-
-    return imei;
+    var imeiId = await ImeiPlugin.getImei;
+    setState(() {
+      imei = imeiId;
+    });
   }
 
   void _getTime() {
@@ -39,29 +52,9 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     return DateFormat('HH:mm').format(dateTime);
   }
 
-  void _changeStatusAbsen() {
-    if (onLocation == true) {
-      if (absen == 'false') {
-        setState(() {
-          absen = 'masuk';
-          absenTitle = 'Absen Masuk';
-        });
-      } else if (absen == 'masuk') {
-        setState(() {
-          absen = 'pulang';
-          absenTitle = 'Absen Pulang';
-        });
-      } else {
-        setState(() {
-          absen = 'false';
-          absenTitle = 'Absen Completed';
-        });
-      }
-    }
-  }
-
   Widget _statusOnLocation() {
-    if (onLocation == false) {
+    onLocation = authLocation();
+    if (onLocation == 'NOK') {
       return Container(
         width: 24.0,
         height: 24.0,
@@ -87,6 +80,100 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
+    getStatusMasuk();
+    getImei();
+  }
+
+  authLocation() {
+    var loc;
+    currentLocation == null ? loc = "NOK" : loc = "OK";
+    return loc;
+  }
+
+  Future<String> getStatusMasuk() async {
+    var url_api = api.ListApi.status_absen;
+    var response = await http.get(Uri.encodeFull(url_api + username),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      data = json.decode(response.body);
+//      print(data['data'][0]['status_absen']);
+    });
+    _jenisAbsen();
+  }
+
+  statusAbsen() {
+    var status;
+    data == null ? status = "null" : status = data['data'][0]['status_absen'];
+    return status;
+  }
+
+  _jenisAbsen() {
+    var status = statusAbsen();
+    if (status == 'belum masuk') {
+      setState(() {
+        jenisAbsen = 'masuk';
+        absenTitle = 'Absen Masuk';
+      });
+    } else if (status == 'sudah masuk') {
+      setState(() {
+        jenisAbsen = 'pulang';
+        absenTitle = 'Absen Pulang';
+      });
+    } else if (status == 'sudah pulang') {
+      setState(() {
+        jenisAbsen = 'complete';
+        absenTitle = 'Absen Completed';
+      });
+    } else {
+      setState(() {
+        jenisAbsen = 'null';
+      });
+    }
+    print(status);
+    print(jenisAbsen);
+    print('asto');
+    return jenisAbsen;
+  }
+
+  _postAbsen() async {
+    onLocation = authLocation();
+    if (onLocation == 'OK') {
+      final uri = api.ListApi.absen;
+      final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      final encoding = Encoding.getByName('utf-8');
+
+      Response response = await post(
+        uri,
+        headers: headers,
+        body: "nik=" +
+            username +
+            "&imei=" +
+            imei +
+            "&latitude=" +
+            currentLocation["latitude"].toString() +
+            "&longitude=" +
+            currentLocation["longitude"].toString() +
+            "&jenis_absen=" +
+            _jenisAbsen(),
+        encoding: encoding,
+      );
+
+      int statusCode = response.statusCode;
+      String responseBody = response.body;
+      final dataResponse = json.decode(response.body);
+      message = dataResponse['message'];
+      changeMessage = true;
+      getStatusMasuk();
+      print(responseBody);
+    } else {
+      message = "Super App tidak dapat mendapatkan lokasi anda!!";
+    }
   }
 
   @override
@@ -135,14 +222,13 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                         Builder(
                           builder: (context) => GestureDetector(
                             onTap: () {
-                              _changeStatusAbsen();
+                              _postAbsen();
                               if (onLocation == true) {
-                                if (absen == 'masuk') {
-                                  Future.delayed(Duration(milliseconds: 200))
+                                if (jenisAbsen == 'masuk') {
+                                  Future.delayed(Duration(milliseconds: 800))
                                       .then((_) {
                                     final snackBar = SnackBar(
-                                        content:
-                                            Text('Semangat pagi pagi pagi!!!'),
+                                        content: Text(message),
                                         action: SnackBarAction(
                                           label: 'OK',
                                           onPressed: () {
@@ -150,12 +236,13 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                           },
                                         ));
                                     Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
                                   });
-                                } else if (absen == 'pulang') {
-                                  Future.delayed(Duration(milliseconds: 200))
+                                } else if (jenisAbsen == 'pulang') {
+                                  Future.delayed(Duration(milliseconds: 800))
                                       .then((_) {
                                     final snackBar = SnackBar(
-                                        content: Text('Pulang lu sana!!!'),
+                                        content: Text(message),
                                         action: SnackBarAction(
                                           label: 'OK',
                                           onPressed: () {
@@ -163,12 +250,13 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                           },
                                         ));
                                     Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
                                   });
-                                } else if (absen == 'false') {
-                                  Future.delayed(Duration(milliseconds: 200))
+                                } else if (jenisAbsen == 'false') {
+                                  Future.delayed(Duration(milliseconds: 800))
                                       .then((_) {
                                     final snackBar = SnackBar(
-                                        content: Text('loop back'),
+                                        content: Text(message),
                                         action: SnackBarAction(
                                           label: 'OK',
                                           onPressed: () {
@@ -176,14 +264,14 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                           },
                                         ));
                                     Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
                                   });
                                 }
                               } else {
-                                Future.delayed(Duration(milliseconds: 200))
+                                Future.delayed(Duration(milliseconds: 800))
                                     .then((_) {
                                   final snackBar = SnackBar(
-                                      content: Text(
-                                          'Mohon datang ke kantor untuk melakukan absen!!'),
+                                      content: Text(message),
                                       action: SnackBarAction(
                                         label: 'OK',
                                         onPressed: () {
@@ -191,6 +279,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                         },
                                       ));
                                   Scaffold.of(context).showSnackBar(snackBar);
+                                  changeMessage = !changeMessage;
                                 });
                               }
                             },
