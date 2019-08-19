@@ -77,7 +77,8 @@ class pageLihatKantor extends State<lihat_kantor_page> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    makeGetRequest();
+    _makeGetRequest();
+    _loadUser();
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -101,7 +102,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
   }
 
 
-  makeGetRequest() async {
+  _makeGetRequest() async {
 
     var latitude = "-6.175004";
     var longitude = "106.793088";
@@ -148,6 +149,14 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  void _loadUser() {
+    location.onLocationChanged().listen((value) {
+      setState(() {
+
+      });
+    });
   }
 }
 
