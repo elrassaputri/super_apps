@@ -78,7 +78,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
   Widget build(BuildContext context) {
     // TODO: implement build
     _makeGetRequest();
-    //_loadUser();
+    _loadUser();
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -132,9 +132,9 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     for (var ini = 0;ini < data_lokasi.length;ini++){
       //TODO setstate
 
-      print("almat"+data_lokasi[ini].alamat);
+      //print("almat"+data_lokasi[ini].alamat);
 
-      //_add(ini.toString(),data_lokasi[ini].latitude,data_lokasi[ini].longitude,data_lokasi[ini].witel,data_lokasi[ini].alamat,data_lokasi[ini].radius);
+      _add(ini.toString(),data_lokasi[ini].latitude,data_lokasi[ini].longitude,data_lokasi[ini].witel,data_lokasi[ini].alamat,data_lokasi[ini].radius);
 
     }
     if(stop_state){
@@ -151,13 +151,13 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
   }
 
-//  void _loadUser() {
-//    location.onLocationChanged().listen((value) {
-//      setState(() {
-//
-//      });
-//    });
-//  }
+  void _loadUser() {
+    location.onLocationChanged().listen((value) {
+      setState(() {
+
+      });
+    });
+  }
 }
 
 class dataLokasi{
