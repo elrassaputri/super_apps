@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:super_apps/ui/lihat_kantor_page.dart';
-import 'package:super_apps/ui/lihat_kantor_page.dart';
-import 'package:super_apps/ui/login_page.dart';
+import 'package:super_apps/ui/lihat_kantor.dart';
 import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: new lihat_kantor_page(),
+      home: new lihat_kantor(),
     );
   }
 }
