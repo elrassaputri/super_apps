@@ -46,6 +46,7 @@ flutter:
   assets:
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
+    -  assets/images/lokasi_kantor.png
   # To add assets to your application, add an assets section, like this:
   #
   #
