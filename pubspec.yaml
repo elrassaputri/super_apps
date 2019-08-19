@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
   google_maps_flutter: ^0.5.19+2
+  flutter_svg: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +47,17 @@ flutter:
   assets:
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
+    - assets/images/bg_profile.png
+    - assets/images/bg_detail_profile.png
+
+    #Icon Profile Page
+    - assets/icon/profile_page/brithday.svg
+    - assets/icon/profile_page/email.svg
+    - assets/icon/profile_page/gender.svg
+    - assets/icon/profile_page/office.svg
+    - assets/icon/profile_page/religion.svg
+    - assets/icon/profile_page/status.svg
+    - assets/icon/profile_page/team.svg
   # To add assets to your application, add an assets section, like this:
   #
   #
