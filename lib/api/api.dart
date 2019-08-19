@@ -11,3 +11,8 @@ class ListApi{
   static var absen =  host+"absensi";
 
 }
+
+class ApiMainHome{
+  static var host = "http://10.204.200.8:3001/";
+  static var menu =  host+"settings_super_apps/";
+}

@@ -10,11 +10,13 @@ import 'package:imei_plugin/imei_plugin.dart';
 import 'package:location/location.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
-var username = '955139';
+//var username = '955139';
+var username = '';
 
 var absen = 'false';
 bool onLocation = false;
@@ -31,6 +33,16 @@ class FingerPrintAbsen extends StatefulWidget {
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
   var data;
+
+  sp_username() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('username','98180052');
+      prefs.commit();
+      username = (prefs.getString('username')??'');
+    });
+  
+  }
 
    getImei() async{    
      var imeiId = await ImeiPlugin.getImei;
@@ -120,6 +132,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     getImei();
     _jenisAbsen();
     getStatusMasuk();
+    sp_username();
   }
 
   authLocation() {
