@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: new FingerPrintAbsen(),
+      home: new LoginPage(),
     );
   }
 }

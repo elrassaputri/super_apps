@@ -17,23 +17,25 @@ class MainMenuPage extends StatefulWidget {
 class _MainMenuPage extends State<MainMenuPage> {
   var data;
 
+   @override
+  void initState() {
+    super.initState();
+    sp_username();    
+  
+  }
+
    sp_username() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setString('username','98180052');
       prefs.commit();
       username = (prefs.getString('username')??'');
+      getDataMenu();
+      
     });
   
   }
 
-  @override
-  void initState() {
-    super.initState();    
-    getDataMenu();
-    sp_username();
-
-  }
 
   Future<String> getDataMenu() async {
     //var url_api = 'http://10.204.200.8:3001/settings_super_apps/2/98180052';
@@ -43,14 +45,9 @@ class _MainMenuPage extends State<MainMenuPage> {
       headers: {
         "Accept": "application/json"
       }
-    );
-
-    this.setState(() {
-      data = json.decode(response.body);
-
-      print(data);
-    });
+    );   
     
+    print(response.body);
     
    }
 
