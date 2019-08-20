@@ -2,13 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:super_apps/api/api.dart' as api;
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+var username = '';
 
 class MainMenu extends StatefulWidget {
+  MainMenu({Key key}) : super(key: key);
+
   @override
   _MainMenuState createState() => _MainMenuState();
 }
 
 class _MainMenuState extends State<MainMenu> {
+  var data;
+
+  sp_username() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('username', '98180052');
+      prefs.commit();
+      username = (prefs.getString('username') ?? '');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataMenu();
+    sp_username();
+  }
+
+  Future<String> getDataMenu() async {
+//var url_api = 'http://10.204.200.8:3001/settings_super_apps/2/98180052';
+    var url_api = api.ApiMainHome.menu;
+    var response = await http.get(Uri.encodeFull(url_api + "1/" + username),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      data = json.decode(response.body);
+
+      print(data);
+    });
+  }
+
   double widthDevice;
   List<List<String>> listMenu = [
     [
@@ -24,10 +64,6 @@ class _MainMenuState extends State<MainMenu> {
     ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '1'],
     ['assets/icon/main_menu_page/tools.svg', 'Tools', '4'],
     ['assets/icon/main_menu_page/video.svg', 'Video', '11'],
-  ];
-
-  List<List<String>> listMenuTest = [
-    
   ];
 
   mainMenuHeaderLogo() {

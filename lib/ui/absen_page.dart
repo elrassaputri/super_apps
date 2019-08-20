@@ -1,16 +1,28 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
+import 'package:http/http.dart';
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
+import 'package:location/location.dart';
+import 'package:super_apps/api/api.dart' as api;
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
+String imei;
+//var username = '955139';
+var username = '';
 
 var absen = 'false';
 bool onLocation = false;
+
+Location location = Location();
+Map<String, double> currentLocation;
 
 class FingerPrintAbsen extends StatefulWidget {
   FingerPrintAbsen({Key key}) : super(key: key);
@@ -20,12 +32,23 @@ class FingerPrintAbsen extends StatefulWidget {
 
 class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   String _timeString;
+  var data;
 
-   getImei() async{
-    
-    var imei = await ImeiPlugin.getImei;
+  sp_username() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('username','98180052');
+      prefs.commit();
+      username = (prefs.getString('username')??'');
+    });
+  
+  }
 
-    return imei;
+   getImei() async{    
+     var imeiId = await ImeiPlugin.getImei;
+     setState(() {
+      imei = imeiId;
+    });
   }
 
   void _getTime() {
@@ -101,7 +124,95 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
+    getImei();
+    _jenisAbsen();
+    getStatusMasuk();
+    sp_username();
   }
+
+  authLocation() {
+    var loc;
+    currentLocation == null
+              ? loc = "NOK"
+              : loc = "OK";
+    return loc;
+  }
+
+  Future<String> getStatusMasuk() async {
+    var url_api = api.ListApi.status_absen;
+    var response = await http.get(
+      Uri.encodeFull(url_api + username),
+      headers: {
+        "Accept": "application/json"
+      }
+    );
+
+    this.setState(() {
+      data = json.decode(response.body);
+
+      print(data['data'][0]['status_absen']);
+    });
+    
+    
+   }
+
+   statusAbsen() {
+    var status;
+                  data == null
+              ? status = "null"
+              : status = data['data'][0]['status_absen'];
+    return status;
+  }
+
+   _jenisAbsen(){
+      var status = statusAbsen();
+      var jenisAbsen;
+      if (status == 'belum masuk') {
+        setState(() {
+          jenisAbsen = 'masuk';
+        });
+      } else if (status == 'sudah masuk') {
+        setState(() {
+          jenisAbsen = 'pulang';
+        });
+      } else if (status == 'sudah pulang') {
+        setState(() {
+          jenisAbsen = 'complete';
+        });
+      }else{
+        setState(() {
+                  jenisAbsen='null';
+                });
+      }
+          
+      return jenisAbsen;
+    }
+
+
+_postAbsen() async {
+
+  final uri = api.ListApi.absen;
+  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  final encoding = Encoding.getByName('utf-8');
+
+  Response response = await post(
+    uri,
+    headers: headers,
+    body: "nik="+username+"&imei="+imei+"&latitude="+currentLocation["latitude"].toString()+"&longitude="+currentLocation["longitude"].toString()+"&jenis_absen="+_jenisAbsen(),
+    encoding: encoding,
+  );
+
+  int statusCode = response.statusCode;
+  String responseBody = response.body;
+
+  print(responseBody);
+  
+}
 
   @override
   Widget build(BuildContext context) {
