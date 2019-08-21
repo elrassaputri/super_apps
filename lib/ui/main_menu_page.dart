@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_apps/ui/human_capital_page.dart';
 
 String username = '';
 List imgList = [];
@@ -58,7 +59,7 @@ class _MainMenuState extends State<MainMenu> {
       '8'
     ],
     ['assets/icon/main_menu_page/finance.svg', 'FENANCE', '6'],
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '2'],
+    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
     ['assets/icon/main_menu_page/LINK.svg', 'Link', '1'],
     ['assets/icon/main_menu_page/oss.svg', 'OSS', '5'],
     ['assets/icon/main_menu_page/project.svg', 'Project', '8'],
@@ -213,6 +214,17 @@ class _MainMenuState extends State<MainMenu> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
+                          switch (listMenu[index][1]) {
+                            case 'Human Capital':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HumanCapital()),
+                              );
+                              break;
+                            default:
+                              return MainMenu();
+                          }
                           print(listMenu[index][1]);
                         },
                         child: mainMenuItem(

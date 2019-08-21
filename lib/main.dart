@@ -3,6 +3,8 @@ import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_apps/ui/main_menu_page.dart';
 import 'package:super_apps/ui/profile_page.dart';
 import 'package:super_apps/ui/lihat_kantor_page.dart';
+import 'package:super_apps/style/theme.dart' as Theme;
+import 'package:super_apps/ui/human_capital_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      home: new lihat_kantor_page(),
+      home: new MyHomePage(),
     );
   }
 }
