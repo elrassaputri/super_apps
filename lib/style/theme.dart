@@ -13,6 +13,7 @@ class Colors {
   static const Color backgroundAbsen = const Color(0xFF0993b8);
   static const Color colorOnLocation = const Color(0xFF5dd72e);
   static const Color colorNotOnLocation = const Color(0xFFEF5350);
+  static const Color backgroundHumanCapital = const Color(0xFF0993b8);
 
   static const linearGradient = const LinearGradient(
       colors: const [gradientAwal, gradientAkhir],

@@ -46,6 +46,11 @@ flutter:
   assets:
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
+
+    #Human Capital
+    - assets/images/human_capital_lokasi_kantor.gif
+    - assets/images/human_capital_report_absen.gif
+    - assets/images/human_capital_absen.png
   # To add assets to your application, add an assets section, like this:
   #
   #
