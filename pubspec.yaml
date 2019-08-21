@@ -82,6 +82,10 @@ flutter:
     - assets/icon/profile_page/religion.svg
     - assets/icon/profile_page/status.svg
     - assets/icon/profile_page/team.svg
+
+    #Lokasi Kantor
+    -  assets/images/lokasi_kantor.png
+    -  assets/images/naker.png
   # To add assets to your application, add an assets section, like this:
   #
   #

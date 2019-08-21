@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_apps/ui/main_menu_page.dart';
 import 'package:super_apps/ui/profile_page.dart';
+import 'package:super_apps/ui/lihat_kantor_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      home: new MyHomePage(
-        title: 'Super Apps',
-      ),
+      home: new lihat_kantor_page(),
     );
   }
 }
