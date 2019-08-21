@@ -1,14 +1,16 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-var username = '';
+String username = '';
+List imgList = [];
+String notif = '';
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
@@ -20,33 +22,32 @@ class MainMenu extends StatefulWidget {
 class _MainMenuState extends State<MainMenu> {
   var data;
 
+  @override
+  void initState() {
+    super.initState();
+    sp_username();
+  }
+
   sp_username() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setString('username', '98180052');
       prefs.commit();
       username = (prefs.getString('username') ?? '');
+      getDataMenu();
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getDataMenu();
-    sp_username();
-  }
-
   Future<String> getDataMenu() async {
-//var url_api = 'http://10.204.200.8:3001/settings_super_apps/2/98180052';
     var url_api = api.ApiMainHome.menu;
     var response = await http.get(Uri.encodeFull(url_api + "1/" + username),
         headers: {"Accept": "application/json"});
 
-    this.setState(() {
-      data = json.decode(response.body);
-
-      print(data);
-    });
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List)
+        .map((data) => new dataProfile.fromJson(data))
+        .toList();
+    foreachHasil(data_profile);
   }
 
   double widthDevice;
@@ -64,14 +65,6 @@ class _MainMenuState extends State<MainMenu> {
     ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '1'],
     ['assets/icon/main_menu_page/tools.svg', 'Tools', '4'],
     ['assets/icon/main_menu_page/video.svg', 'Video', '11'],
-  ];
-
-  List imgList = [
-    'https://images.unsplash.com/photo-1502117859338-fd9daa518a9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1554321586-92083ba0a115?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1536679545597-c2e5e1946495?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1543922596-b3bbaba80649?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    'https://images.unsplash.com/photo-1502943693086-33b5b1cfdf2f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80'
   ];
 
   mainMenuHeaderLogo() {
@@ -152,15 +145,12 @@ class _MainMenuState extends State<MainMenu> {
     Widget mainMenuSlideShow = Container(
       height: widthDevice * .4,
       child: Carousel(
-        boxFit: BoxFit.cover,
         images: imgList.map((imgUrl) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Colors.grey[400],
                 ),
                 child: Image.network(
                   imgUrl,
@@ -178,8 +168,21 @@ class _MainMenuState extends State<MainMenu> {
         dotSize: 4.0,
       ),
     );
+    Widget mainMenuBrokenImage = Container(
+      color: Colors.grey[400],
+      height: widthDevice * .4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.broken_image,
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
 
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.Colors.backgroundAbsen,
       body: CustomScrollView(
@@ -187,7 +190,10 @@ class _MainMenuState extends State<MainMenu> {
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildListDelegate(
-              [mainMenuHeader(), mainMenuSlideShow],
+              [
+                mainMenuHeader(),
+                imgList.length != 0 ? mainMenuSlideShow : mainMenuBrokenImage
+              ],
             ),
           ),
           SliverPadding(
@@ -224,6 +230,27 @@ class _MainMenuState extends State<MainMenu> {
           )
         ],
       ),
+    );
+  }
+}
+
+void foreachHasil(List<dataProfile> data_profile) {
+  for (int ini = 0; ini < data_profile.length; ini++) {
+    notif = data_profile[ini].notif;
+    imgList = data_profile[ini].foto;
+  }
+}
+
+class dataProfile {
+  List foto;
+  String notif;
+
+  dataProfile({this.foto, this.notif});
+
+  factory dataProfile.fromJson(Map<String, dynamic> parsedJson) {
+    return dataProfile(
+      foto: parsedJson['image_foto'],
+      notif: parsedJson['notif'].toString(),
     );
   }
 }
