@@ -3,6 +3,7 @@ import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 import 'package:super_apps/ui/report_absen.dart';
+import 'package:super_apps/ui/report_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,8 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.cyan,
       ),
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: new ReportAbsen(),
+      home: new ReportPage(),
     );
   }
 }
