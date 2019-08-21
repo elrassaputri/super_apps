@@ -18,9 +18,8 @@ String imei;
 String jenisAbsen = '';
 String absenTitle = 'Absen Masuk';
 String message = '';
-String username = '955139';
+String username = '';
 String onLocation = 'NOK';
-bool changeMessage = false;
 Location location = Location();
 Map<String, double> currentLocation;
 
@@ -37,11 +36,10 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   sp_username() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setString('username','98180052');
+      prefs.setString('username', '98180052');
       prefs.commit();
-      username = (prefs.getString('username')??'');
+      username = (prefs.getString('username') ?? '');
     });
-  
   }
 
   getImei() async {
@@ -177,12 +175,10 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
       );
 
       int statusCode = response.statusCode;
-      String responseBody = response.body;
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
-      changeMessage = true;
       getStatusMasuk();
-      print(responseBody);
+      print('testing post');
     } else {
       message = "Super App tidak dapat mendapatkan lokasi anda!!";
     }
@@ -193,138 +189,158 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
+    double heightBottomNav = 85.0;
 
     return Scaffold(
-      body: Container(
-        color: Theme.Colors.backgroundAbsen,
-        child: Column(
-          crossAxisAlignment: prefix0.CrossAxisAlignment.center,
-          mainAxisAlignment: prefix0.MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              height: heightDevice,
-              padding: prefix0.EdgeInsets.only(
-                  top: heightDevice * .1, bottom: heightDevice * .1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    padding: prefix0.EdgeInsets.only(
-                        left: widthDevice * .05, right: widthDevice * .05),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: prefix0.MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        _statusOnLocation(),
-                        Container(
-                          child: Text(_timeString,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: prefix0.FontWeight.bold)),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Builder(
-                          builder: (context) => GestureDetector(
-                            onTap: () {
-                              _postAbsen();
-                              if (onLocation == true) {
-                                if (jenisAbsen == 'masuk') {
-                                  Future.delayed(Duration(milliseconds: 800))
-                                      .then((_) {
-                                    final snackBar = SnackBar(
-                                        content: Text(message),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {
-                                            // Some code to undo the change.
-                                          },
-                                        ));
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                    changeMessage = !changeMessage;
-                                  });
-                                } else if (jenisAbsen == 'pulang') {
-                                  Future.delayed(Duration(milliseconds: 800))
-                                      .then((_) {
-                                    final snackBar = SnackBar(
-                                        content: Text(message),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {
-                                            // Some code to undo the change.
-                                          },
-                                        ));
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                    changeMessage = !changeMessage;
-                                  });
-                                } else if (jenisAbsen == 'false') {
-                                  Future.delayed(Duration(milliseconds: 800))
-                                      .then((_) {
-                                    final snackBar = SnackBar(
-                                        content: Text(message),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {
-                                            // Some code to undo the change.
-                                          },
-                                        ));
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                    changeMessage = !changeMessage;
-                                  });
-                                }
-                              } else {
-                                Future.delayed(Duration(milliseconds: 800))
-                                    .then((_) {
-                                  final snackBar = SnackBar(
-                                      content: Text(message),
-                                      action: SnackBarAction(
-                                        label: 'OK',
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
-                                      ));
-                                  Scaffold.of(context).showSnackBar(snackBar);
-                                  changeMessage = !changeMessage;
-                                });
-                              }
-                            },
-                            child: Container(
-                              width: widthDevice,
-                              child: Image.asset(
-                                  'assets/images/absen_masuk_fingerprint.gif'),
+      body: CustomScrollView(
+        physics: ClampingScrollPhysics(),
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Container(
+                color: Theme.Colors.backgroundAbsen,
+                child: Column(
+                  crossAxisAlignment: prefix0.CrossAxisAlignment.center,
+                  mainAxisAlignment: prefix0.MainAxisAlignment.end,
+                  children: <Widget>[
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                          minHeight: heightDevice - heightBottomNav),
+                      child: Container(
+                        padding: prefix0.EdgeInsets.only(
+                            top: heightDevice * .1, bottom: heightDevice * .1),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Container(
+                              padding: prefix0.EdgeInsets.only(
+                                  left: widthDevice * .05,
+                                  right: widthDevice * .05),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    prefix0.MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  _statusOnLocation(),
+                                  Container(
+                                    child: Text(_timeString,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: Colors.white,
+                                            fontWeight:
+                                                prefix0.FontWeight.bold)),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Builder(
+                                    builder: (context) => GestureDetector(
+                                      onTap: () {
+                                        _postAbsen();
+                                        if (onLocation == true) {
+                                          if (jenisAbsen == 'masuk') {
+                                            Future.delayed(
+                                                    Duration(milliseconds: 800))
+                                                .then((_) {
+                                              final snackBar = SnackBar(
+                                                  content: Text(message),
+                                                  action: SnackBarAction(
+                                                    label: 'OK',
+                                                    onPressed: () {
+                                                      // Some code to undo the change.
+                                                    },
+                                                  ));
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snackBar);
+                                            });
+                                          } else if (jenisAbsen == 'pulang') {
+                                            Future.delayed(
+                                                    Duration(milliseconds: 800))
+                                                .then((_) {
+                                              final snackBar = SnackBar(
+                                                  content: Text(message),
+                                                  action: SnackBarAction(
+                                                    label: 'OK',
+                                                    onPressed: () {
+                                                      // Some code to undo the change.
+                                                    },
+                                                  ));
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snackBar);
+                                            });
+                                          } else if (jenisAbsen == 'false') {
+                                            Future.delayed(
+                                                    Duration(milliseconds: 800))
+                                                .then((_) {
+                                              final snackBar = SnackBar(
+                                                  content: Text(message),
+                                                  action: SnackBarAction(
+                                                    label: 'OK',
+                                                    onPressed: () {
+                                                      // Some code to undo the change.
+                                                    },
+                                                  ));
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snackBar);
+                                            });
+                                          }
+                                        } else {
+                                          Future.delayed(
+                                                  Duration(milliseconds: 800))
+                                              .then((_) {
+                                            final snackBar = SnackBar(
+                                                content: Text(message),
+                                                action: SnackBarAction(
+                                                  label: 'OK',
+                                                  onPressed: () {
+                                                    // Some code to undo the change.
+                                                  },
+                                                ));
+                                            Scaffold.of(context)
+                                                .showSnackBar(snackBar);
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        width: widthDevice,
+                                        child: Image.asset(
+                                            'assets/images/absen_masuk_fingerprint.gif'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(top: 32),
+                                    child: Text(absenTitle,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 32),
-                          child: Text(absenTitle,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ]),
+          )
+        ],
       ),
     );
   }

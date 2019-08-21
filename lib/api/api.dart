@@ -7,7 +7,7 @@ class Api{
 }
 
 class ListApi{
-  static var host = "http://10.204.200.8:8087/";
+  static var host = "http://10.204.200.8:3001/";
   static var status_absen = host+"status_masuk_absen/";
   static var absen =  host+"absensi";
 
