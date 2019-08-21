@@ -15,12 +15,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
-//var username = '955139';
-var username = '';
-
-var absen = 'false';
-bool onLocation = false;
-
+String jenisAbsen = '';
+String absenTitle = 'Absen Masuk';
+String message = '';
+String username = '955139';
+String onLocation = 'NOK';
+bool changeMessage = false;
 Location location = Location();
 Map<String, double> currentLocation;
 
@@ -44,9 +44,9 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   
   }
 
-   getImei() async{    
-     var imeiId = await ImeiPlugin.getImei;
-     setState(() {
+  getImei() async {
+    var imeiId = await ImeiPlugin.getImei;
+    setState(() {
       imei = imeiId;
     });
   }
@@ -63,42 +63,9 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
     return DateFormat('HH:mm').format(dateTime);
   }
 
-  void _changeStatusAbsen() {
-    if (onLocation == true) {
-      if (absen == 'false') {
-        setState(() {
-          absen = 'masuk';
-        });
-      } else if (absen == 'masuk') {
-        setState(() {
-          absen = 'pulang';
-        });
-      } else {
-        setState(() {
-          absen = 'false';
-        });
-      }
-    }
-  }
-
-  Widget _textStatusAbsen() {
-    if (absen == 'false') {
-      return Text('Absen Masuk',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
-    } else if (absen == 'masuk') {
-      return Text('Absen Pulang',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
-    } else if (absen == 'pulang') {
-      return Text('Absen Complete',
-          style: TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold));
-    }
-  }
-
   Widget _statusOnLocation() {
-    if (onLocation == false) {
+    onLocation = authLocation();
+    if (onLocation == 'NOK') {
       return Container(
         width: 24.0,
         height: 24.0,
@@ -129,146 +96,194 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
         currentLocation = value;
       });
     });
-    getImei();
-    _jenisAbsen();
     getStatusMasuk();
     sp_username();
+    getImei();
   }
 
   authLocation() {
     var loc;
-    currentLocation == null
-              ? loc = "NOK"
-              : loc = "OK";
+    currentLocation == null ? loc = "NOK" : loc = "OK";
     return loc;
   }
 
   Future<String> getStatusMasuk() async {
     var url_api = api.ListApi.status_absen;
-    var response = await http.get(
-      Uri.encodeFull(url_api + username),
-      headers: {
-        "Accept": "application/json"
-      }
-    );
+    var response = await http.get(Uri.encodeFull(url_api + username),
+        headers: {"Accept": "application/json"});
 
     this.setState(() {
       data = json.decode(response.body);
-
-      print(data['data'][0]['status_absen']);
+//      print(data['data'][0]['status_absen']);
     });
-    
-    
-   }
+    _jenisAbsen();
+  }
 
-   statusAbsen() {
+  statusAbsen() {
     var status;
-                  data == null
-              ? status = "null"
-              : status = data['data'][0]['status_absen'];
+    data == null ? status = "null" : status = data['data'][0]['status_absen'];
     return status;
   }
 
-   _jenisAbsen(){
-      var status = statusAbsen();
-      var jenisAbsen;
-      if (status == 'belum masuk') {
-        setState(() {
-          jenisAbsen = 'masuk';
-        });
-      } else if (status == 'sudah masuk') {
-        setState(() {
-          jenisAbsen = 'pulang';
-        });
-      } else if (status == 'sudah pulang') {
-        setState(() {
-          jenisAbsen = 'complete';
-        });
-      }else{
-        setState(() {
-                  jenisAbsen='null';
-                });
-      }
-          
-      return jenisAbsen;
+  _jenisAbsen() {
+    var status = statusAbsen();
+    if (status == 'belum masuk') {
+      setState(() {
+        jenisAbsen = 'masuk';
+        absenTitle = 'Absen Masuk';
+      });
+    } else if (status == 'sudah masuk') {
+      setState(() {
+        jenisAbsen = 'pulang';
+        absenTitle = 'Absen Pulang';
+      });
+    } else if (status == 'sudah pulang') {
+      setState(() {
+        jenisAbsen = 'complete';
+        absenTitle = 'Absen Completed';
+      });
+    } else {
+      setState(() {
+        jenisAbsen = 'null';
+      });
     }
+    print(status);
+    print(jenisAbsen);
+    print('asto');
+    return jenisAbsen;
+  }
 
+  _postAbsen() async {
+    onLocation = authLocation();
+    if (onLocation == 'OK') {
+      final uri = api.ListApi.absen;
+      final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      final encoding = Encoding.getByName('utf-8');
 
-_postAbsen() async {
+      Response response = await post(
+        uri,
+        headers: headers,
+        body: "nik=" +
+            username +
+            "&imei=" +
+            imei +
+            "&latitude=" +
+            currentLocation["latitude"].toString() +
+            "&longitude=" +
+            currentLocation["longitude"].toString() +
+            "&jenis_absen=" +
+            _jenisAbsen(),
+        encoding: encoding,
+      );
 
-  final uri = api.ListApi.absen;
-  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  final encoding = Encoding.getByName('utf-8');
-
-  Response response = await post(
-    uri,
-    headers: headers,
-    body: "nik="+username+"&imei="+imei+"&latitude="+currentLocation["latitude"].toString()+"&longitude="+currentLocation["longitude"].toString()+"&jenis_absen="+_jenisAbsen(),
-    encoding: encoding,
-  );
-
-  int statusCode = response.statusCode;
-  String responseBody = response.body;
-
-  print(responseBody);
-  
-}
+      int statusCode = response.statusCode;
+      String responseBody = response.body;
+      final dataResponse = json.decode(response.body);
+      message = dataResponse['message'];
+      changeMessage = true;
+      getStatusMasuk();
+      print(responseBody);
+    } else {
+      message = "Super App tidak dapat mendapatkan lokasi anda!!";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    getImei();
     double widthDevice = MediaQuery.of(context).size.width;
+    double heightDevice = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
         color: Theme.Colors.backgroundAbsen,
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Container(
-                  padding: EdgeInsets.only(top: 50, left: 16, right: 16),
-                  margin: EdgeInsets.only(bottom: 32),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: prefix0.MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      _statusOnLocation(),
-                      Container(
-                        child: Text(_timeString,
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontWeight: prefix0.FontWeight.bold)),
-                      )
-                    ],
+        child: Column(
+          crossAxisAlignment: prefix0.CrossAxisAlignment.center,
+          mainAxisAlignment: prefix0.MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              height: heightDevice,
+              padding: prefix0.EdgeInsets.only(
+                  top: heightDevice * .1, bottom: heightDevice * .1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    padding: prefix0.EdgeInsets.only(
+                        left: widthDevice * .05, right: widthDevice * .05),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: prefix0.MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        _statusOnLocation(),
+                        Container(
+                          child: Text(_timeString,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: prefix0.FontWeight.bold)),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  child: Row(
-                    children: <Widget>[
-                      Builder(
-                        builder: (context) => GestureDetector(
-                          onTap: () {
-                            _changeStatusAbsen();
-                            if (onLocation == true) {
-                              if (absen == 'masuk') {
-                                Future.delayed(Duration(seconds: 1)).then((_) {
-                                  final snackBar = SnackBar(
-                                      content:
-                                          Text('Semangat pagi pagi pagi!!!'),
-                                      action: SnackBarAction(
-                                        label: 'OK',
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
-                                      ));
-                                  Scaffold.of(context).showSnackBar(snackBar);
-                                });
-                              } else if (absen == 'pulang') {
-                                Future.delayed(Duration(milliseconds: 200))
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () {
+                              _postAbsen();
+                              if (onLocation == true) {
+                                if (jenisAbsen == 'masuk') {
+                                  Future.delayed(Duration(milliseconds: 800))
+                                      .then((_) {
+                                    final snackBar = SnackBar(
+                                        content: Text(message),
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ));
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
+                                  });
+                                } else if (jenisAbsen == 'pulang') {
+                                  Future.delayed(Duration(milliseconds: 800))
+                                      .then((_) {
+                                    final snackBar = SnackBar(
+                                        content: Text(message),
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ));
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
+                                  });
+                                } else if (jenisAbsen == 'false') {
+                                  Future.delayed(Duration(milliseconds: 800))
+                                      .then((_) {
+                                    final snackBar = SnackBar(
+                                        content: Text(message),
+                                        action: SnackBarAction(
+                                          label: 'OK',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ));
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                    changeMessage = !changeMessage;
+                                  });
+                                }
+                              } else {
+                                Future.delayed(Duration(milliseconds: 800))
                                     .then((_) {
                                   final snackBar = SnackBar(
-                                      content: Text('Pulang lu sana!!!'),
+                                      content: Text(message),
                                       action: SnackBarAction(
                                         label: 'OK',
                                         onPressed: () {
@@ -276,58 +291,38 @@ _postAbsen() async {
                                         },
                                       ));
                                   Scaffold.of(context).showSnackBar(snackBar);
-                                });
-                              } else if (absen == 'false') {
-                                Future.delayed(Duration(seconds: 1)).then((_) {
-                                  final snackBar = SnackBar(
-                                      content: Text('loop back'),
-                                      action: SnackBarAction(
-                                        label: 'OK',
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
-                                      ));
-                                  Scaffold.of(context).showSnackBar(snackBar);
+                                  changeMessage = !changeMessage;
                                 });
                               }
-                            } else {
-                              Future.delayed(Duration(seconds: 1)).then((_) {
-                                final snackBar = SnackBar(
-                                    content: Text(
-                                        'Mohon datang ke kantor untuk melakukan absen!!'),
-                                    action: SnackBarAction(
-                                      label: 'OK',
-                                      onPressed: () {
-                                        // Some code to undo the change.
-                                      },
-                                    ));
-                                Scaffold.of(context).showSnackBar(snackBar);
-                              });
-                            }
-                          },
-                          child: Container(
-                            width: widthDevice,
-                            child: Image.asset(
-                                'assets/images/absen_masuk_fingerprint.gif'),
+                            },
+                            child: Container(
+                              width: widthDevice,
+                              child: Image.asset(
+                                  'assets/images/absen_masuk_fingerprint.gif'),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 32),
-                        child: _textStatusAbsen(),
-                      )
-                    ],
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 32),
+                          child: Text(absenTitle,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ]),
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),

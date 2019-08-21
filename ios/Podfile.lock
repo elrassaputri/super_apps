@@ -14,7 +14,6 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
-
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
