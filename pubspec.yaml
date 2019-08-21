@@ -29,6 +29,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
   google_maps_flutter: ^0.5.19+2
+  flutter_datetime_picker: ^1.2.6
+  sticky_headers: ^0.1.7
+  speech_bubble: ^0.0.5
+  super_tooltip: ^0.9.0
 
 dev_dependencies:
   flutter_test:
