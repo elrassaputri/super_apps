@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_apps/ui/main_menu_page.dart';
+import 'package:super_apps/ui/profile_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,10 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
         return MainMenu();
         break;
       case 1:
-        return LoginPage();
+        return FingerPrintAbsen();
         break;
       case 2:
-        return FingerPrintAbsen();
+        return Profile();
         break;
       default:
         return MainMenu();
@@ -66,11 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            title: Text('Login'),
+            title: Text('Absen'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            title: Text('Absen'),
+            title: Text('Profile'),
           ),
         ],
         currentIndex: _selectedIndex,

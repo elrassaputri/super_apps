@@ -49,12 +49,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    #Absen
     - assets/images/login_header.png
     - assets/images/absen_masuk_fingerprint.gif
+
+    #Main menu
     - assets/images/logo_ta_putih.png
     - assets/images/bg_apps.png
-
-    #image slide show main page
     - assets/images/quotes_3.jpg
     - assets/images/tis.jpg
 
@@ -68,6 +69,19 @@ flutter:
     - assets/icon/main_menu_page/supply_chain.svg
     - assets/icon/main_menu_page/tools.svg
     - assets/icon/main_menu_page/video.svg
+
+    #Profile bg
+    - assets/images/bg_profile.png
+    - assets/images/bg_detail_profile.png
+
+    #Icon Profile Page
+    - assets/icon/profile_page/brithday.svg
+    - assets/icon/profile_page/email.svg
+    - assets/icon/profile_page/gender.svg
+    - assets/icon/profile_page/office.svg
+    - assets/icon/profile_page/religion.svg
+    - assets/icon/profile_page/status.svg
+    - assets/icon/profile_page/team.svg
   # To add assets to your application, add an assets section, like this:
   #
   #
