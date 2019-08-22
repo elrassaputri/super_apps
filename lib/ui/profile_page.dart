@@ -49,7 +49,6 @@ class _Profile extends State<Profile> {
           ),
         ),
         child: CustomScrollView(
-          physics: ClampingScrollPhysics(),
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildListDelegate([

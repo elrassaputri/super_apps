@@ -114,7 +114,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     var latitude = lat.toString();
     var longitude = long.toString();
 
-    final uri = api.Api.app_lihat_kantor + "$latitude/$longitude";
+    final uri = api.ListApi.app_lihat_kantor + "$latitude/$longitude";
     print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);

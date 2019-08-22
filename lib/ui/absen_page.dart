@@ -11,6 +11,8 @@ import 'package:location/location.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_apps/ui/main_menu_page.dart';
+import 'package:super_apps/ui/profile_page.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
@@ -193,7 +195,6 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
 
     return Scaffold(
       body: CustomScrollView(
-        physics: ClampingScrollPhysics(),
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildListDelegate([
@@ -205,7 +206,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                   children: <Widget>[
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                          minHeight: heightDevice - heightBottomNav),
+                          minHeight: heightDevice),
                       child: Container(
                         padding: prefix0.EdgeInsets.only(
                             top: heightDevice * .1, bottom: heightDevice * .1),

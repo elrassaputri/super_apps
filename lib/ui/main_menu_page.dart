@@ -216,14 +216,19 @@ class _MainMenuState extends State<MainMenu> {
                         onTap: () {
                           switch (listMenu[index][1]) {
                             case 'Human Capital':
-                              Navigator.push(
+                              return Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => HumanCapital()),
                               );
                               break;
                             default:
-                              return MainMenu();
+                              return Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainMenu()),
+                              );
+                              break;
                           }
                           print(listMenu[index][1]);
                         },
