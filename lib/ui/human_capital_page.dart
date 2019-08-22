@@ -3,9 +3,8 @@ import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 import 'package:super_apps/ui/absen_page.dart';
+import 'package:super_apps/ui/report_absen_page.dart';
 import 'package:super_apps/ui/lihat_kantor_page.dart';
-import 'package:super_apps/ui/main_menu_page.dart';
-import 'package:super_apps/ui/profile_page.dart';
 
 class HumanCapital extends StatefulWidget {
   HumanCapital({Key key}) : super(key: key);
@@ -63,29 +62,6 @@ class _HumanCapital extends State<HumanCapital> {
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
-    int _selectedIndex = 0;
-
-    Widget callPage(int selectedIndex) {
-      switch (selectedIndex) {
-        case 0:
-          return MainMenu();
-          break;
-        case 1:
-          return FingerPrintAbsen();
-          break;
-        case 2:
-          return Profile();
-          break;
-        default:
-          return MainMenu();
-      }
-    }
-
-    void _onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -123,7 +99,7 @@ class _HumanCapital extends State<HumanCapital> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FingerPrintAbsen()),
+                                  builder: (context) => ReportPage()),
                             );
                           } else {
                             Navigator.push(
@@ -147,25 +123,6 @@ class _HumanCapital extends State<HumanCapital> {
             )
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Absen'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('Profile'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.cyan,
-        onTap: _onItemTapped,
       ),
     );
   }

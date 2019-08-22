@@ -6,6 +6,7 @@ import 'package:super_apps/ui/profile_page.dart';
 import 'package:super_apps/ui/lihat_kantor_page.dart';
 import 'package:super_apps/style/theme.dart' as Theme;
 import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:super_apps/ui/report_absen_page.dart';
 
 void main() => runApp(MyApp());
 
