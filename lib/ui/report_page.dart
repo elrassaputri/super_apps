@@ -11,7 +11,13 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 
-List<String> listReportAbsen = [];
+int lengthReportAbsen = 0;
+List<String> tanggalAbsen = [];
+List<String> jamMasukAbsen = [];
+List<String> jamPulangAbsen = [];
+List<String> ketAbsen = [];
+String message;
+String status;
 
 class ReportPage extends StatefulWidget {
   //static const String routeName = '/material/tooltips';
@@ -44,6 +50,161 @@ class _ReportPageState extends State<ReportPage> {
           new DropdownMenuItem(value: keterangan, child: new Text(keterangan)));
     }
     return items;
+  }
+
+  ketWidgetAbsen(String ket) {
+    Widget ketIcon;
+    switch (ket) {
+      case 'M' : {
+        return ketIcon = Container(
+          color: Colors.grey,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('M',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'F': {
+        return ketIcon = Container(
+          color: Colors.greenAccent,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('F',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'W': {
+        return ketIcon = Container(
+          color: Colors.lightBlueAccent,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('W',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'D': {
+        return ketIcon = Container(
+          color: Colors.green,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('D',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'S': {
+        return ketIcon = Container(
+          color: Colors.deepPurple,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('S',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'C': {
+        return ketIcon = Container(
+          color: Colors.deepOrangeAccent,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('C',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'I': {
+        return ketIcon = Container(
+          color: Colors.purpleAccent,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('I',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'T': {
+        return ketIcon = Container(
+          color: Colors.indigo,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('T',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      case 'G': {
+        return ketIcon = Container(
+          color: Colors.pinkAccent,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('G',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+      break;
+      default : {
+        return ketIcon = Container(
+          color: Colors.grey,
+          height: 25.0,
+          // height of the button
+          width: 25.0,
+          // width of the button
+          child: Center(
+              child: Text('M',
+                  style: TextStyle(
+                      color: Colors
+                          .white))),
+        );
+      }
+    }
   }
 
   void onTap() {
@@ -112,8 +273,7 @@ class _ReportPageState extends State<ReportPage> {
                             color: Colors.lightBlueAccent,
                             height: 25.0, // height of the button
                             width: 25.0, // width of the button
-                            child: Center(
-                                child: Text('W',
+                            child: Center( child: Text('W',
                                     style: TextStyle(color: Colors.white))),
                           ),
                         ),
@@ -421,89 +581,85 @@ class _ReportPageState extends State<ReportPage> {
                   scrollDirection: Axis.vertical,
                   child: Container(
                     child: StickyHeader(
-                      header: new Container(
-                        height: 50.0,
-                        color: Colors.lightBlueAccent,
-                        alignment: Alignment.centerLeft,
-                        child: Row(children: <Widget>[
-                          new Expanded(
-                              child: Container(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: new Text("No",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15)))),
-                          new Expanded(
-                              child: new Text("Tanggal",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15))),
-                          new Expanded(
-                              child: new Text("Jam Masuk",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15))),
-                          new Expanded(
-                            child: Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: new Text("Jam Pulang",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15))),
-                          ),
-                          new Expanded(
-                            child: Container(
-                                child: GestureDetector(
-                              onTap: onTap,
-                              child: Container(
-                                key: _containerKey,
-                                padding: EdgeInsets.only(left: 30),
-                                child: new Text("Ket",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15)),
-                              ),
-                            )),
-                          ),
-                        ]),
-                      ),
-                      content: new Container(
-                        child: Table(
-                          children: [
-                            TableRow(children: [
-                              
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("1"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                child: Container(
-                                    padding: EdgeInsets.only(bottom: 5),
-                                    child: GestureDetector(
-                                      child: ClipOval(
-                                        child: Container(
-                                          color: Colors.grey,
-                                          height: 25.0,
-                                          // height of the button
-                                          width: 25.0,
-                                          // width of the button
-                                          child: Center(
-                                              child: Text('M',
-                                                  style: TextStyle(
-                                                      color: Colors.white))),
-                                        ),
-                                      ),
-                                    )),
-                              )
-                            ]),
-                          ],
+                        header: new Container(
+                          height: 50.0,
+                          padding: prefix0.EdgeInsets.symmetric(horizontal: 16.0),
+                          color: Colors.lightBlueAccent,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                        child: new Text("No",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15)))),
+                                Expanded(
+                                    child: new Text("Tanggal",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15))),
+                                Expanded(
+                                    child: new Text("Jam Masuk",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15))),
+                                Expanded(
+                                  child: Container(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: new Text("Jam Pulang",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15))),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                      child: GestureDetector(
+                                    onTap: onTap,
+                                    child: Container(
+                                      key: _containerKey,
+                                      padding: EdgeInsets.only(left: 30),
+                                      child: new Text("Ket",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
+                                    ),
+                                  )),
+                                ),
+                              ]),
                         ),
-                      ),
-                    ),
+                        content: Table(
+                          children: List<int>.generate(
+                                  lengthReportAbsen, (index) => index)
+                              .map((item) => TableRow(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: Text((item + 1).toString()),
+                                      ),
+                                      Text(tanggalAbsen[item]),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text(jamMasukAbsen[item]),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 18),
+                                        child: Text(jamPulangAbsen[item]),
+                                      ),
+                                      Center(
+                                        child: Container(
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            child: GestureDetector(
+                                              child: ClipOval(
+                                                child: ketWidgetAbsen(ketAbsen[item]),
+                                              ),
+                                            )),
+                                      )
+                                    ],
+                                  ))
+                              .toList(),
+                        )),
                   ),
                 ),
               )),
@@ -557,11 +713,18 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   void foreachHasil(List<dataReport> data_absensi) {
+    setState(() {
+      lengthReportAbsen = data_absensi.length;
+    });
     for (var ini = 0; ini < data_absensi.length; ini++) {
       //TODO setstate
-      print(data_absensi[ini].tanggal);
       setState(() {
-        listReportAbsen.add(data_absensi[ini].tanggal);
+        tanggalAbsen.add(data_absensi[ini].tanggal);
+        jamMasukAbsen.add(data_absensi[ini].jam_masuk);
+        jamPulangAbsen.add(data_absensi[ini].jam_pulang);
+        ketAbsen.add(data_absensi[ini].keterangan);
+        message = data_absensi[ini].message;
+        status = data_absensi[ini].status;
       });
     }
   }
