@@ -249,12 +249,14 @@ class _MainMenuState extends State<MainMenu> {
       ),
     );
   }
-}
 
-void foreachHasil(List<dataProfile> data_profile) {
-  for (int ini = 0; ini < data_profile.length; ini++) {
-    notif = data_profile[ini].notif;
-    imgList = data_profile[ini].foto;
+  void foreachHasil(List<dataProfile> data_profile) {
+    for (int ini = 0; ini < data_profile.length; ini++) {
+      setState(() {
+        notif = data_profile[ini].notif;
+        imgList = data_profile[ini].foto;
+      });
+    }
   }
 }
 

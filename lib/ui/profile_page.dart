@@ -343,42 +343,44 @@ class _Profile extends State<Profile> {
       ),
     );
   }
-}
 
-makeGetRequest() async
-{
-  var nik = "955139";
-  final uri = api.Api.app_profile+"$nik/${api.Api.versi}";
-  print(uri);
-  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  Response response = await get(uri,headers: headers);
-  var data = jsonDecode(response.body);
-  var data_profile = (data["data"] as List).map((data) => new
-  dataProfile.fromJson(data)).toList();
-  print(data_profile.length);
-  foreachHasil(data_profile);
-}
-
-void foreachHasil(List<dataProfile> data_profile) {
-
-  for (var ini = 0;ini < data_profile.length;ini++){
-    //TODO setstate
-
-    // provide data astro
-    nik = data_profile[ini].nik;
-    nama = data_profile[ini].nama;
-    jabatan = data_profile[ini].jabatan;
-    jenis_kelamin = data_profile[ini].jenis_kelamin;
-    tempat_tanggal_lahir = data_profile[ini].tempat_tanggal_lahir;
-    agama = data_profile[ini].agama;
-    status_kerja = data_profile[ini].status_kerja;
-    lokasi_kerja = data_profile[ini].lokasi_kerja;
-    email = data_profile[ini].email;
-    atasan = data_profile[ini].atasan;
-    foto = data_profile[ini].foto;
-    print("testing:"+foto);
+  makeGetRequest() async
+  {
+    var nik = "955139";
+    final uri = api.Api.app_profile+"$nik/${api.Api.versi}";
+    print(uri);
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri,headers: headers);
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List).map((data) => new
+    dataProfile.fromJson(data)).toList();
+    print(data_profile.length);
+    foreachHasil(data_profile);
   }
 
+  void foreachHasil(List<dataProfile> data_profile) {
+
+    for (var ini = 0;ini < data_profile.length;ini++){
+      //TODO setstate
+
+      // provide data astro
+      setState(() {
+        nik = data_profile[ini].nik;
+        nama = data_profile[ini].nama;
+        jabatan = data_profile[ini].jabatan;
+        jenis_kelamin = data_profile[ini].jenis_kelamin;
+        tempat_tanggal_lahir = data_profile[ini].tempat_tanggal_lahir;
+        agama = data_profile[ini].agama;
+        status_kerja = data_profile[ini].status_kerja;
+        lokasi_kerja = data_profile[ini].lokasi_kerja;
+        email = data_profile[ini].email;
+        atasan = data_profile[ini].atasan;
+        foto = data_profile[ini].foto;
+      });
+      print("testing:"+foto);
+    }
+
+  }
 }
 
 class dataProfile{
