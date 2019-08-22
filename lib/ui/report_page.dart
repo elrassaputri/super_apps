@@ -55,155 +55,135 @@ class _ReportPageState extends State<ReportPage> {
   ketWidgetAbsen(String ket) {
     Widget ketIcon;
     switch (ket) {
-      case 'M' : {
-        return ketIcon = Container(
-          color: Colors.grey,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('M',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'F': {
-        return ketIcon = Container(
-          color: Colors.greenAccent,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('F',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'W': {
-        return ketIcon = Container(
-          color: Colors.lightBlueAccent,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('W',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'D': {
-        return ketIcon = Container(
-          color: Colors.green,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('D',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'S': {
-        return ketIcon = Container(
-          color: Colors.deepPurple,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('S',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'C': {
-        return ketIcon = Container(
-          color: Colors.deepOrangeAccent,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('C',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'I': {
-        return ketIcon = Container(
-          color: Colors.purpleAccent,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('I',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'T': {
-        return ketIcon = Container(
-          color: Colors.indigo,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('T',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      case 'G': {
-        return ketIcon = Container(
-          color: Colors.pinkAccent,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('G',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
-      break;
-      default : {
-        return ketIcon = Container(
-          color: Colors.grey,
-          height: 25.0,
-          // height of the button
-          width: 25.0,
-          // width of the button
-          child: Center(
-              child: Text('M',
-                  style: TextStyle(
-                      color: Colors
-                          .white))),
-        );
-      }
+      case 'M':
+        {
+          return ketIcon = Container(
+            color: Colors.grey,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('M', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'F':
+        {
+          return ketIcon = Container(
+            color: Colors.greenAccent,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('F', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'W':
+        {
+          return ketIcon = Container(
+            color: Colors.lightBlueAccent,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('W', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'D':
+        {
+          return ketIcon = Container(
+            color: Colors.green,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('D', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'S':
+        {
+          return ketIcon = Container(
+            color: Colors.deepPurple,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('S', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'C':
+        {
+          return ketIcon = Container(
+            color: Colors.deepOrangeAccent,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('C', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'I':
+        {
+          return ketIcon = Container(
+            color: Colors.purpleAccent,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('I', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'T':
+        {
+          return ketIcon = Container(
+            color: Colors.indigo,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('T', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      case 'G':
+        {
+          return ketIcon = Container(
+            color: Colors.pinkAccent,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('G', style: TextStyle(color: Colors.white))),
+          );
+        }
+        break;
+      default:
+        {
+          return ketIcon = Container(
+            color: Colors.grey,
+            height: 25.0,
+            // height of the button
+            width: 25.0,
+            // width of the button
+            child:
+                Center(child: Text('M', style: TextStyle(color: Colors.white))),
+          );
+        }
     }
   }
 
@@ -273,7 +253,8 @@ class _ReportPageState extends State<ReportPage> {
                             color: Colors.lightBlueAccent,
                             height: 25.0, // height of the button
                             width: 25.0, // width of the button
-                            child: Center( child: Text('W',
+                            child: Center(
+                                child: Text('W',
                                     style: TextStyle(color: Colors.white))),
                           ),
                         ),
@@ -435,234 +416,229 @@ class _ReportPageState extends State<ReportPage> {
       ),
       body: new SafeArea(
         child: new Column(children: [
-          new Expanded(
-            flex: 2,
-            child: new Container(
-              padding: EdgeInsets.only(right: 10.0, left: 10.0),
-              color: Theme.Colors.backgroundAbsen,
-              child: new Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Tanggal',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: width / 2.3,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: Colors.white,
-                          onPressed: () {
-                            DatePicker.showDatePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime(2018, 3, 5),
-                                maxTime: DateTime(2019), onChanged: (date) {
-                              print('change $date');
-                            }, onConfirm: (date) {
-                              print('confirm $date');
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.en);
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "2019/08/19",
-                                textAlign: TextAlign.center,
-                              ),
-                              Flexible(fit: FlexFit.tight, child: SizedBox()),
-                              Icon(Icons.date_range),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '-',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        width: width / 2.3,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: Colors.white,
-                          onPressed: () {
-                            DatePicker.showDatePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime(2018, 3, 5),
-                                maxTime: DateTime(2019), onChanged: (date) {
-                              print('change $date');
-                            }, onConfirm: (date) {
-                              print('confirm $date');
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.en);
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "2019/08/19",
-                                textAlign: TextAlign.center,
-                              ),
-                              Flexible(fit: FlexFit.tight, child: SizedBox()),
-                              Icon(Icons.date_range),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Keterangan',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.0, style: BorderStyle.solid),
-                          borderRadius: BorderRadius.circular(10)),
+          Container(
+            padding: EdgeInsets.only(right: 10.0, left: 10.0),
+            color: Theme.Colors.backgroundAbsen,
+            child: new Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Tanggal',
+                    style: TextStyle(
                       color: Colors.white,
                     ),
-                    child: DropdownButton(
-                      value: _selectedKeterangan,
-                      items: _dropDownMenuItems,
-                      onChanged: changedDropDownItem,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: width / 2.3,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(2018, 3, 5),
+                              maxTime: DateTime(2019), onChanged: (date) {
+                            print('change $date');
+                          }, onConfirm: (date) {
+                            print('confirm $date');
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.en);
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "2019/08/19",
+                              textAlign: TextAlign.center,
+                            ),
+                            Flexible(fit: FlexFit.tight, child: SizedBox()),
+                            Icon(Icons.date_range),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '-',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      width: width / 2.3,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(2018, 3, 5),
+                              maxTime: DateTime(2019), onChanged: (date) {
+                            print('change $date');
+                          }, onConfirm: (date) {
+                            print('confirm $date');
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.en);
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "2019/08/19",
+                              textAlign: TextAlign.center,
+                            ),
+                            Flexible(fit: FlexFit.tight, child: SizedBox()),
+                            Icon(Icons.date_range),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Keterangan',
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(top: 25),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      onPressed: () async {
-                        // makePostRequest();
-                      },
-                      child: Text("Filter"),
-                      color: Theme.Colors.bacgroundButton,
-                      textColor: Theme.Colors.colorTextWhite,
-                    ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1.0, style: BorderStyle.solid),
+                        borderRadius: BorderRadius.circular(10)),
+                    color: Colors.white,
                   ),
-                ],
+                  child: DropdownButton(
+                    value: _selectedKeterangan,
+                    items: _dropDownMenuItems,
+                    onChanged: changedDropDownItem,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(top: 25),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    onPressed: () async {
+                      // makePostRequest();
+                    },
+                    child: Text("Filter"),
+                    color: Theme.Colors.bacgroundButton,
+                    textColor: Theme.Colors.colorTextWhite,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          prefix0.Expanded(
+            child: Container(
+              width: width,
+              // this will give you flexible width not fixed widt
+              color: Colors.white,
+              //variable
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Container(
+                  child: StickyHeader(
+                      header: new Container(
+                        height: 50.0,
+                        padding: prefix0.EdgeInsets.symmetric(horizontal: 16.0),
+                        margin: prefix0.EdgeInsets.only(bottom: 16.0),
+                        color: Colors.lightBlueAccent,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Expanded(
+                                  child: Container(
+                                      child: new Text("No",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)))),
+                              Expanded(
+                                  child: new Text("Tanggal",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15))),
+                              Expanded(
+                                  child: new Text("Jam Masuk",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15))),
+                              Expanded(
+                                child: Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: new Text("Jam Pulang",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15))),
+                              ),
+                              Expanded(
+                                child: Container(
+                                    child: GestureDetector(
+                                  onTap: onTap,
+                                  child: Container(
+                                    key: _containerKey,
+                                    padding: EdgeInsets.only(left: 30),
+                                    child: new Text("Ket",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15)),
+                                  ),
+                                )),
+                              ),
+                            ]),
+                      ),
+                      content: Table(
+                        children: List<int>.generate(
+                                lengthReportAbsen, (index) => index)
+                            .map((item) => TableRow(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 16),
+                                      child: Text((item + 1).toString()),
+                                    ),
+                                    Text(tanggalAbsen[item]),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(jamMasukAbsen[item]),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 18),
+                                      child: Text(jamPulangAbsen[item]),
+                                    ),
+                                    Center(
+                                      child: Container(
+                                          padding: EdgeInsets.only(bottom: 5),
+                                          child: GestureDetector(
+                                            child: ClipOval(
+                                              child: ketWidgetAbsen(
+                                                  ketAbsen[item]),
+                                            ),
+                                          )),
+                                    )
+                                  ],
+                                ))
+                            .toList(),
+                      )),
+                ),
               ),
             ),
           ),
-          new Expanded(
-              flex: 3,
-              child: new Container(
-                width: width,
-                // this will give you flexible width not fixed widt
-                color: Colors.white,
-                //variable
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                    child: StickyHeader(
-                        header: new Container(
-                          height: 50.0,
-                          padding: prefix0.EdgeInsets.symmetric(horizontal: 16.0),
-                          color: Colors.lightBlueAccent,
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Container(
-                                        child: new Text("No",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15)))),
-                                Expanded(
-                                    child: new Text("Tanggal",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15))),
-                                Expanded(
-                                    child: new Text("Jam Masuk",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15))),
-                                Expanded(
-                                  child: Container(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: new Text("Jam Pulang",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15))),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                      child: GestureDetector(
-                                    onTap: onTap,
-                                    child: Container(
-                                      key: _containerKey,
-                                      padding: EdgeInsets.only(left: 30),
-                                      child: new Text("Ket",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15)),
-                                    ),
-                                  )),
-                                ),
-                              ]),
-                        ),
-                        content: Table(
-                          children: List<int>.generate(
-                                  lengthReportAbsen, (index) => index)
-                              .map((item) => TableRow(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(left: 16),
-                                        child: Text((item + 1).toString()),
-                                      ),
-                                      Text(tanggalAbsen[item]),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text(jamMasukAbsen[item]),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 18),
-                                        child: Text(jamPulangAbsen[item]),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                            padding: EdgeInsets.only(bottom: 5),
-                                            child: GestureDetector(
-                                              child: ClipOval(
-                                                child: ketWidgetAbsen(ketAbsen[item]),
-                                              ),
-                                            )),
-                                      )
-                                    ],
-                                  ))
-                              .toList(),
-                        )),
-                  ),
-                ),
-              )),
         ]),
       ),
     );
