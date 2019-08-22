@@ -11,6 +11,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 
+List<String> listReportAbsen = [];
+
 class ReportPage extends StatefulWidget {
   //static const String routeName = '/material/tooltips';
 
@@ -464,6 +466,7 @@ class _ReportPageState extends State<ReportPage> {
                         child: Table(
                           children: [
                             TableRow(children: [
+                              
                               Container(
                                 padding: EdgeInsets.only(left: 16),
                                 child: Text("1"),
@@ -496,262 +499,6 @@ class _ReportPageState extends State<ReportPage> {
                                       ),
                                     )),
                               )
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("2"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: onTap,
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.greenAccent,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('F',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("3"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.lightBlueAccent,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('W',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("4"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.green,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('D',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("5"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.deepPurple,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('S',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("6"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.deepOrangeAccent,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('C',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("7"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.purpleAccent,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('I',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("8"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.pinkAccent,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('G',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
-                            ]),
-                            TableRow(children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Text("9"),
-                              ),
-                              Text("2019-07-03"),
-                              Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("08:22:24"),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 18),
-                                child: Text("05:22:24"),
-                              ),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {},
-                                child: ClipOval(
-                                  child: Container(
-                                    color: Colors.indigo,
-                                    height: 25.0,
-                                    // height of the button
-                                    width: 25.0,
-                                    // width of the button
-                                    child: Center(
-                                        child: Text('T',
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                  ),
-                                ),
-                              ))
                             ]),
                           ],
                         ),
@@ -813,6 +560,9 @@ class _ReportPageState extends State<ReportPage> {
     for (var ini = 0; ini < data_absensi.length; ini++) {
       //TODO setstate
       print(data_absensi[ini].tanggal);
+      setState(() {
+        listReportAbsen.add(data_absensi[ini].tanggal);
+      });
     }
   }
 }
