@@ -31,17 +31,16 @@ class _MainMenuState extends State<MainMenu> {
 
   sp_username() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setString('username', '98180052');
-      prefs.commit();
+    setState((){
       username = (prefs.getString('username') ?? '');
       getDataMenu();
     });
   }
 
   Future<String> getDataMenu() async {
-    var url_api = api.ApiMainHome.menu;
-    var response = await http.get(Uri.encodeFull(url_api + "1/" + username),
+    var url_api = api.Api.menu;
+    print("main : "+ "${url_api}${username}/${api.Api.versi}");
+    var response = await http.get(Uri.encodeFull("${url_api}${username}/${api.Api.versi}"),
         headers: {"Accept": "application/json"});
 
     var data = jsonDecode(response.body);

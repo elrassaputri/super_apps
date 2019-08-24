@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart';
 import 'package:super_apps/style//theme.dart' as Theme;
 import 'package:intl/intl.dart';
@@ -11,8 +10,6 @@ import 'package:location/location.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:super_apps/ui/main_menu_page.dart';
-import 'package:super_apps/ui/profile_page.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
@@ -25,21 +22,19 @@ String onLocation = 'NOK';
 Location location = Location();
 Map<String, double> currentLocation;
 
-class FingerPrintAbsen extends StatefulWidget {
-  FingerPrintAbsen({Key key}) : super(key: key);
+class Absen extends StatefulWidget {
+  Absen({Key key}) : super(key: key);
 
   _FingerPrintAbsen createState() => new _FingerPrintAbsen();
 }
 
-class _FingerPrintAbsen extends State<FingerPrintAbsen> {
+class _FingerPrintAbsen extends State<Absen> {
   String _timeString;
   var data;
 
   sp_username() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setString('username', '98180052');
-      prefs.commit();
       username = (prefs.getString('username') ?? '');
     });
   }
@@ -108,7 +103,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   }
 
   Future<String> getStatusMasuk() async {
-    var url_api = api.ListApi.status_absen;
+    var url_api = api.Api.status_absen;
     var response = await http.get(Uri.encodeFull(url_api + username),
         headers: {"Accept": "application/json"});
 
@@ -156,7 +151,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
   _postAbsen() async {
     onLocation = authLocation();
     if (onLocation == 'OK') {
-      final uri = api.ListApi.absen;
+      final uri = api.Api.absen;
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
 
@@ -201,14 +196,14 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
               Container(
                 color: Theme.Colors.backgroundAbsen,
                 child: Column(
-                  crossAxisAlignment: prefix0.CrossAxisAlignment.center,
-                  mainAxisAlignment: prefix0.MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ConstrainedBox(
                       constraints: BoxConstraints(
                           minHeight: heightDevice),
                       child: Container(
-                        padding: prefix0.EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             top: heightDevice * .1, bottom: heightDevice * .1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,13 +211,13 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
-                              padding: prefix0.EdgeInsets.only(
+                              padding: EdgeInsets.only(
                                   left: widthDevice * .05,
                                   right: widthDevice * .05),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                    prefix0.MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   _statusOnLocation(),
                                   Container(
@@ -231,7 +226,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                             fontSize: 24,
                                             color: Colors.white,
                                             fontWeight:
-                                                prefix0.FontWeight.bold)),
+                                                FontWeight.bold)),
                                   )
                                 ],
                               ),
@@ -243,7 +238,7 @@ class _FingerPrintAbsen extends State<FingerPrintAbsen> {
                                     builder: (context) => GestureDetector(
                                       onTap: () {
                                         _postAbsen();
-                                        if (onLocation == true) {
+                                        if (onLocation == true){
                                           if (jenisAbsen == 'masuk') {
                                             Future.delayed(
                                                     Duration(milliseconds: 800))

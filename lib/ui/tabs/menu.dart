@@ -1,38 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
-import 'package:super_apps/ui/absen_page.dart';
-import 'package:super_apps/ui/login_page.dart';
-import 'package:super_apps/ui/main_menu_page.dart';
-import 'package:super_apps/ui/profile_page.dart';
-import 'package:super_apps/ui/lihat_kantor_page.dart';
-import 'package:super_apps/style/theme.dart' as Theme;
-import 'package:super_apps/ui/human_capital_page.dart';
+import '../absen_page.dart';
+import '../main_menu_page.dart';
+import '../profile_page.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class Menu extends StatefulWidget{
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Super Apps',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: new Login(),
-    );
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return new _Menu();
   }
+  
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _Menu extends State<Menu>{
   int _selectedIndex = 0;
 
   Widget callPage(int selectedIndex) {
@@ -59,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: callPage(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -83,11 +64,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-//  Future<bool> Islogin() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    var login = (prefs.getString("username") ?? '');
-//    if(login != ''){
-//      return true;
-//    }else return false;
-//  }
 }

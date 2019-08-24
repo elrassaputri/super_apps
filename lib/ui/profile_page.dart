@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,7 @@ String lokasi_kerja         = '';
 String email                = '';
 String atasan               = '';
 String foto                 = '';
+String username             = '';
 
 class Profile extends StatefulWidget {
   Profile({Key key}) : super(key: key);
@@ -25,11 +27,15 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
+
+
   @override
   void initState() {
+
+
     // TODO: implement initState
     super.initState();
-    makeGetRequest();
+    getNik();
   }
   @override
   Widget build(BuildContext context) {
@@ -343,43 +349,55 @@ class _Profile extends State<Profile> {
       ),
     );
   }
-}
 
-makeGetRequest() async
-{
-  var nik = "955139";
-  final uri = api.Api.app_profile+"$nik/${api.Api.versi}";
-  print(uri);
-  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  Response response = await get(uri,headers: headers);
-  var data = jsonDecode(response.body);
-  var data_profile = (data["data"] as List).map((data) => new
-  dataProfile.fromJson(data)).toList();
-  print(data_profile.length);
-  foreachHasil(data_profile);
-}
+  Future getNik() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState((){
+      username = (prefs.getString('username') ?? '');
+      makeGetRequest();
+    });
+  }
+  void foreachHasil(List<dataProfile> data_profile) {
 
-void foreachHasil(List<dataProfile> data_profile) {
-
-  for (var ini = 0;ini < data_profile.length;ini++){
-    //TODO setstate
-
-    // provide data astro
-    nik = data_profile[ini].nik;
-    nama = data_profile[ini].nama;
-    jabatan = data_profile[ini].jabatan;
-    jenis_kelamin = data_profile[ini].jenis_kelamin;
-    tempat_tanggal_lahir = data_profile[ini].tempat_tanggal_lahir;
-    agama = data_profile[ini].agama;
-    status_kerja = data_profile[ini].status_kerja;
-    lokasi_kerja = data_profile[ini].lokasi_kerja;
-    email = data_profile[ini].email;
-    atasan = data_profile[ini].atasan;
-    foto = data_profile[ini].foto;
-    print("testing:"+foto);
+    for (var ini = 0;ini < data_profile.length;ini++){
+      //TODO setstate
+      setState(() {
+        // provide data astro
+        nik = data_profile[ini].nik;
+        nama = data_profile[ini].nama;
+        jabatan = data_profile[ini].jabatan;
+        jenis_kelamin = data_profile[ini].jenis_kelamin;
+        tempat_tanggal_lahir = data_profile[ini].tempat_tanggal_lahir;
+        agama = data_profile[ini].agama;
+        status_kerja = data_profile[ini].status_kerja;
+        lokasi_kerja = data_profile[ini].lokasi_kerja;
+        email = data_profile[ini].email;
+        atasan = data_profile[ini].atasan;
+        foto = data_profile[ini].foto;
+        print("testing:"+foto);
+      });
+    }
   }
 
+  makeGetRequest() async
+  {
+    print("masuk sini");
+    var nik = username;
+    final uri = api.Api.profile+"$nik/${api.Api.versi}";
+    print(uri);
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri,headers: headers);
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List).map((data) => new
+    dataProfile.fromJson(data)).toList();
+    print(data_profile.length);
+    foreachHasil(data_profile);
+  }
 }
+
+
+
+
 
 class dataProfile{
 

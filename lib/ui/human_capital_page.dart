@@ -71,7 +71,7 @@ class _HumanCapital extends State<HumanCapital> {
           return MainMenu();
           break;
         case 1:
-          return FingerPrintAbsen();
+          return Absen();
           break;
         case 2:
           return Profile();
@@ -117,13 +117,13 @@ class _HumanCapital extends State<HumanCapital> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FingerPrintAbsen()),
+                                  builder: (context) => Absen()),
                             );
                           } else if (listMenu[index][0] == 'Report Absen') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FingerPrintAbsen()),
+                                  builder: (context) => Absen()),
                             );
                           } else {
                             Navigator.push(
