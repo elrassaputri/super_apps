@@ -6,10 +6,12 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style/theme.dart' as style;
 import 'package:location/location.dart';
-import 'package:super_apps/style/theme.dart' as Theme;
+import 'package:super_apps/style/theme.dart' as theme;
+import 'package:super_apps/style/string.dart' as string;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -40,7 +42,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     final MarkerId markerId = MarkerId(id);
 
     final Uint8List markerIcon =
-    await getBytesFromAsset('assets/images/lokasi_kantor.png', 150);
+    await getBytesFromAsset(string.text.uri_ic_lokasi_kantor, 150);
 
     // creating a new MARKER
     final Marker marker = Marker(
@@ -70,13 +72,12 @@ class pageLihatKantor extends State<lihat_kantor_page> {
 
     return new Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.Colors.backgroundLogin,
-        title:
-        Text("Lihat Lokasi Kantor", style: TextStyle(color: Colors.white)),
+        backgroundColor: theme.Colors.backgroundHumanCapital,
+        title: Text(string.text.page_lihat_kantor, style: TextStyle(color: Colors.white)),
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-          ),
+//          icon: Icon(
+//            Icons.arrow_back,
+//          ),
           onPressed: () => Navigator.pop(context, false),
         ),
         actions: <Widget>[],
@@ -91,14 +92,28 @@ class pageLihatKantor extends State<lihat_kantor_page> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Text("Zoom IN"),
+        onPressed: _goToUser,
+        label: Text(string.text.lbl_zoom_in),
         icon: Icon(Icons.supervised_user_circle),
       ),
     );
   }
 
-  Future<void> _goToTheLake() async {
+
+  @override
+  void initState() {
+    super.initState();
+    getNik();
+  }
+
+  getNik() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nik = (prefs.getString('username') ?? '');
+    });
+  }
+
+  Future<void> _goToUser() async {
     final GoogleMapController controller = await _controller.future;
 
     CameraPosition _kLake = CameraPosition(
@@ -156,7 +171,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
 
   var lat = 0.0;
   var long = 0.0;
-  var nik = "955139";
+  var nik = "";
 
   void _loadUser() {
     location.onLocationChanged().listen((value) {
@@ -168,7 +183,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
         final MarkerId markerId = MarkerId(nik);
 
         final Uint8List markerIcon =
-        await getBytesFromAsset('assets/images/naker.png', 150);
+        await getBytesFromAsset(string.text.uri_ic_naker, 150);
 
         // creating a new MARKER
         final Marker marker = Marker(

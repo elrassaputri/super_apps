@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:super_apps/style/theme.dart' as Theme;
+import 'package:super_apps/style/theme.dart' as theme;
+import 'package:super_apps/style/string.dart' as string;
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/api/api.dart' as api;
@@ -9,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/ui/human_capital_page.dart';
 
-String username = '';
+String nik = '';
 List imgList = [];
 String notif = '';
 
@@ -26,23 +27,21 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    sp_username();
+    getNik();
   }
 
-  sp_username() async {
+  getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState((){
-      username = (prefs.getString('username') ?? '');
+      nik = (prefs.getString('username') ?? '');
       getDataMenu();
     });
   }
 
   Future<String> getDataMenu() async {
     var url_api = api.Api.menu;
-    print("main : "+ "${url_api}${username}/${api.Api.versi}");
-    var response = await http.get(Uri.encodeFull("${url_api}${username}/${api.Api.versi}"),
+    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
         headers: {"Accept": "application/json"});
-
     var data = jsonDecode(response.body);
     var data_profile = (data["data"] as List)
         .map((data) => new dataProfile.fromJson(data))
@@ -70,14 +69,14 @@ class _MainMenuState extends State<MainMenu> {
   mainMenuHeaderLogo() {
     return Container(
       height: 54.0,
-      child: Image.asset('assets/images/logo_ta_putih.png'),
+      child: Image.asset(string.text.uri_logo_ta_putih),
     );
   }
 
   mainMenuHeader() {
     return Container(
       padding: EdgeInsets.only(top: 36.0, bottom: 16.0),
-      color: Theme.Colors.transparent,
+      color: theme.Colors.transparent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,7 +128,7 @@ class _MainMenuState extends State<MainMenu> {
             style: TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.w500,
-              color: Theme.Colors.iconMainMenu,
+              color: theme.Colors.iconMainMenu,
             ),
           ),
         ),
@@ -162,7 +161,7 @@ class _MainMenuState extends State<MainMenu> {
         }).toList(),
         autoplay: true,
         autoplayDuration: Duration(seconds: 4),
-        dotBgColor: Theme.Colors.transparent,
+        dotBgColor: theme.Colors.transparent,
         dotColor: Colors.white,
         dotIncreasedColor: Colors.cyan,
         dotSize: 4.0,
@@ -184,7 +183,7 @@ class _MainMenuState extends State<MainMenu> {
     );
 
     return Scaffold(
-      backgroundColor: Theme.Colors.backgroundAbsen,
+      backgroundColor: theme.Colors.backgroundAbsen,
       body: CustomScrollView(
         primary: false,
         slivers: <Widget>[
@@ -229,7 +228,6 @@ class _MainMenuState extends State<MainMenu> {
                               );
                               break;
                           }
-                          print(listMenu[index][1]);
                         },
                         child: mainMenuItem(
                           icon: listMenu[index][0],
@@ -248,12 +246,15 @@ class _MainMenuState extends State<MainMenu> {
       ),
     );
   }
-}
 
-void foreachHasil(List<dataProfile> data_profile) {
-  for (int ini = 0; ini < data_profile.length; ini++) {
-    notif = data_profile[ini].notif;
-    imgList = data_profile[ini].foto;
+  void foreachHasil(List<dataProfile> data_profile) {
+    for (int ini = 0; ini < data_profile.length; ini++) {
+      setState(() {
+        notif = data_profile[ini].notif;
+        imgList = data_profile[ini].foto;
+        print(imgList);
+      });
+    }
   }
 }
 

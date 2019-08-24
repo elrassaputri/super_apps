@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/api/api.dart' as api;
-import 'package:flutter/material.dart' as prefix0;
+import 'package:super_apps/style/string.dart' as string;
 import 'package:flutter_svg/flutter_svg.dart';
 
 String nik                  = '';
@@ -31,8 +31,6 @@ class _Profile extends State<Profile> {
 
   @override
   void initState() {
-
-
     // TODO: implement initState
     super.initState();
     getNik();
@@ -50,7 +48,7 @@ class _Profile extends State<Profile> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg_profile.png'),
+            image: AssetImage(string.text.uri_bg_profile),
             fit: BoxFit.fill,
           ),
         ),
@@ -82,18 +80,18 @@ class _Profile extends State<Profile> {
                           children: <Widget>[
                             Text(
                               nik,
-                              style: prefix0.TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: prefix0.FontWeight.w500,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 16.0),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.only(top: 2.0),
+                              margin: EdgeInsets.only(top: 2.0),
                               child: Text(
                                 nama,
-                                style: prefix0.TextStyle(
+                                style:  TextStyle(
                                     color: Colors.white,
-                                    fontWeight: prefix0.FontWeight.w500,
+                                    fontWeight:  FontWeight.w500,
                                     fontSize: 16.0),
                               ),
                             ),
@@ -101,7 +99,7 @@ class _Profile extends State<Profile> {
                               margin: EdgeInsets.only(top: 8.0),
                               child: Text(
                                 jabatan,
-                                style: prefix0.TextStyle(
+                                style:  TextStyle(
                                     color: Colors.white70, fontSize: 14.0),
                               ),
                             ),
@@ -121,7 +119,7 @@ class _Profile extends State<Profile> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image:
-                            AssetImage('assets/images/bg_detail_profile.png'),
+                            AssetImage(string.text.uri_bg_detail_profile),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -129,14 +127,13 @@ class _Profile extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
-                                    child: SvgPicture.asset(
-                                      'assets/icon/profile_page/gender.svg',
-                                      semanticsLabel: 'Gender',
+                                    child: SvgPicture.asset(string.text.uri_gender,
+                                      semanticsLabel: string.text.lbl_jenis_kelamin,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -158,14 +155,13 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
-                                    child: SvgPicture.asset(
-                                      'assets/icon/profile_page/brithday.svg',
-                                      semanticsLabel: 'Brithday',
+                                    child: SvgPicture.asset(string.text.uri_brithday,
+                                      semanticsLabel: string.text.lbl_hari_lahir,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -187,14 +183,14 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
                                     child: SvgPicture.asset(
-                                      'assets/icon/profile_page/religion.svg',
-                                      semanticsLabel: 'Religion',
+                                      string.text.uri_religion,
+                                      semanticsLabel: string.text.lbl_agama,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -216,14 +212,14 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
                                     child: SvgPicture.asset(
-                                      'assets/icon/profile_page/status.svg',
-                                      semanticsLabel: 'Status',
+                                      string.text.uri_status_merried,
+                                      semanticsLabel: string.text.lbl_status_menikah,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -245,14 +241,14 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
                                     child: SvgPicture.asset(
-                                      'assets/icon/profile_page/office.svg',
-                                      semanticsLabel: 'Office',
+                                      string.text.uri_office,
+                                      semanticsLabel: string.text.lbl_kantor,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -274,14 +270,14 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
                                     child: SvgPicture.asset(
-                                      'assets/icon/profile_page/email.svg',
-                                      semanticsLabel: 'Email',
+                                      string.text.uri_email,
+                                      semanticsLabel: string.text.lbl_email,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -303,14 +299,13 @@ class _Profile extends State<Profile> {
                               ),
                             ),
                             Container(
-                              margin: prefix0.EdgeInsets.symmetric(vertical: 8.0),
+                              margin:  EdgeInsets.symmetric(vertical: 8.0),
                               child: Row(
-                                mainAxisSize: prefix0.MainAxisSize.max,
+                                mainAxisSize:  MainAxisSize.max,
                                 children: <Widget>[
                                   Container(
                                     child: SvgPicture.asset(
-                                      'assets/icon/profile_page/team.svg',
-                                      semanticsLabel: 'Team',
+                                      string.text.uri_team,
                                       placeholderBuilder: (context) =>
                                           Icon(Icons.error),
                                       width: widthIcon,
@@ -324,7 +319,7 @@ class _Profile extends State<Profile> {
                                         (16.0 + 32.0 + 16.0 + widthDataProfile),
                                     child: Column(
                                       crossAxisAlignment:
-                                      prefix0.CrossAxisAlignment.start,
+                                       CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           atasan,
@@ -374,14 +369,12 @@ class _Profile extends State<Profile> {
         email = data_profile[ini].email;
         atasan = data_profile[ini].atasan;
         foto = data_profile[ini].foto;
-        print("testing:"+foto);
       });
     }
   }
 
   makeGetRequest() async
   {
-    print("masuk sini");
     var nik = username;
     final uri = api.Api.profile+"$nik/${api.Api.versi}";
     print(uri);
@@ -394,10 +387,6 @@ class _Profile extends State<Profile> {
     foreachHasil(data_profile);
   }
 }
-
-
-
-
 
 class dataProfile{
 
@@ -412,7 +401,6 @@ class dataProfile{
   String email;
   String atasan;
   String foto;
-
 
   dataProfile({this.nik,this.nama,this.jabatan,this.jenis_kelamin,this.tempat_tanggal_lahir,this.agama,this.status_kerja,this.lokasi_kerja,this.email,this.atasan,this.foto});
 

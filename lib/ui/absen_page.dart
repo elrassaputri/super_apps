@@ -3,11 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:super_apps/style//theme.dart' as Theme;
+import 'package:super_apps/style//theme.dart' as theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
 import 'package:location/location.dart';
 import 'package:super_apps/api/api.dart' as api;
+import 'package:super_apps/style/string.dart' as string;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +18,7 @@ String imei;
 String jenisAbsen = '';
 String absenTitle = 'Absen Masuk';
 String message = '';
-String username = '';
+String nik = '';
 String onLocation = 'NOK';
 Location location = Location();
 Map<String, double> currentLocation;
@@ -25,17 +26,17 @@ Map<String, double> currentLocation;
 class Absen extends StatefulWidget {
   Absen({Key key}) : super(key: key);
 
-  _FingerPrintAbsen createState() => new _FingerPrintAbsen();
+  _Absen createState() => new _Absen();
 }
 
-class _FingerPrintAbsen extends State<Absen> {
+class _Absen extends State<Absen> {
   String _timeString;
   var data;
 
-  sp_username() async {
+  getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = (prefs.getString('username') ?? '');
+      nik = (prefs.getString('username') ?? '');
     });
   }
 
@@ -65,7 +66,7 @@ class _FingerPrintAbsen extends State<Absen> {
         width: 24.0,
         height: 24.0,
         decoration: new BoxDecoration(
-          color: Theme.Colors.colorNotOnLocation,
+          color: theme.Colors.colorNotOnLocation,
           shape: BoxShape.circle,
         ),
       );
@@ -74,7 +75,7 @@ class _FingerPrintAbsen extends State<Absen> {
         width: 24.0,
         height: 24.0,
         decoration: new BoxDecoration(
-          color: Theme.Colors.colorOnLocation,
+          color: theme.Colors.colorOnLocation,
           shape: BoxShape.circle,
         ),
       );
@@ -92,7 +93,7 @@ class _FingerPrintAbsen extends State<Absen> {
       });
     });
     getStatusMasuk();
-    sp_username();
+    getNik();
     getImei();
   }
 
@@ -104,12 +105,11 @@ class _FingerPrintAbsen extends State<Absen> {
 
   Future<String> getStatusMasuk() async {
     var url_api = api.Api.status_absen;
-    var response = await http.get(Uri.encodeFull(url_api + username),
+    var response = await http.get(Uri.encodeFull(url_api + nik),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
       data = json.decode(response.body);
-//      print(data['data'][0]['status_absen']);
     });
     _jenisAbsen();
   }
@@ -144,7 +144,6 @@ class _FingerPrintAbsen extends State<Absen> {
     }
     print(status);
     print(jenisAbsen);
-    print('asto');
     return jenisAbsen;
   }
 
@@ -159,7 +158,7 @@ class _FingerPrintAbsen extends State<Absen> {
         uri,
         headers: headers,
         body: "nik=" +
-            username +
+            nik +
             "&imei=" +
             imei +
             "&latitude=" +
@@ -171,13 +170,11 @@ class _FingerPrintAbsen extends State<Absen> {
         encoding: encoding,
       );
 
-      int statusCode = response.statusCode;
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
       getStatusMasuk();
-      print('testing post');
     } else {
-      message = "Super App tidak dapat mendapatkan lokasi anda!!";
+      message = string.text.msg_lokasi_tidak_ada;
     }
   }
 
@@ -186,7 +183,6 @@ class _FingerPrintAbsen extends State<Absen> {
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
-    double heightBottomNav = 85.0;
 
     return Scaffold(
       body: CustomScrollView(
@@ -194,7 +190,7 @@ class _FingerPrintAbsen extends State<Absen> {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-                color: Theme.Colors.backgroundAbsen,
+                color: theme.Colors.backgroundAbsen,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -304,8 +300,7 @@ class _FingerPrintAbsen extends State<Absen> {
                                       },
                                       child: Container(
                                         width: widthDevice,
-                                        child: Image.asset(
-                                            'assets/images/absen_masuk_fingerprint.gif'),
+                                        child: Image.asset(string.text.uri_absen_masuk),
                                       ),
                                     ),
                                   ),
