@@ -61,23 +61,27 @@ class pageLihatKantor extends State<lihat_kantor_page> {
         strokeColor: style.Colors.colorCircle);
 
     // adding a new marker to map
-    markers[markerId] = marker;
-    circles[ci] = circle;
+
+    setState(() {
+      markers[markerId] = marker;
+      circles[ci] = circle;
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    _loadUser();
+
 
     return new Scaffold(
       appBar: AppBar(
         backgroundColor: theme.Colors.backgroundHumanCapital,
         title: Text(string.text.page_lihat_kantor, style: TextStyle(color: Colors.white)),
         leading: IconButton(
-//          icon: Icon(
-//            Icons.arrow_back,
-//          ),
+          icon: Icon(
+            Icons.arrow_back,
+          ),
           onPressed: () => Navigator.pop(context, false),
         ),
         actions: <Widget>[],
@@ -104,6 +108,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
   void initState() {
     super.initState();
     getNik();
+    _loadUser();
   }
 
   getNik() async {
@@ -153,10 +158,9 @@ class pageLihatKantor extends State<lihat_kantor_page> {
           data_lokasi[ini].alamat,
           data_lokasi[ini].radius);
     }
-    if (state) {
-      setState(() {});
-    }
-    state = false;
+      //setState(() {
+    // });
+
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -172,6 +176,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
   var lat = 0.0;
   var long = 0.0;
   var nik = "";
+
 
   void _loadUser() {
     location.onLocationChanged().listen((value) {
