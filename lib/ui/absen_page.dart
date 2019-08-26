@@ -17,7 +17,7 @@ String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
 String jenisAbsen = '';
 String absenTitle = 'Absen Masuk';
-String message = '';
+String message = string.text.lbl_cek_koneksi_internet;
 String nik = '';
 String onLocation = 'NOK';
 Location location = Location();

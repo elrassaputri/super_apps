@@ -51,19 +51,19 @@ class _MainMenuState extends State<MainMenu> {
 
   double widthDevice;
   List<List<String>> listMenu = [
+    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
     [
       'assets/icon/main_menu_page/document_management.svg',
       'Document Management',
-      '8'
+      '2'
     ],
-    ['assets/icon/main_menu_page/finance.svg', 'FENANCE', '6'],
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
-    ['assets/icon/main_menu_page/LINK.svg', 'Link', '1'],
-    ['assets/icon/main_menu_page/oss.svg', 'OSS', '5'],
-    ['assets/icon/main_menu_page/project.svg', 'Project', '8'],
-    ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '1'],
-    ['assets/icon/main_menu_page/tools.svg', 'Tools', '4'],
-    ['assets/icon/main_menu_page/video.svg', 'Video', '11'],
+    ['assets/icon/main_menu_page/project.svg', 'Project', '1'],
+    ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '5'],
+    ['assets/icon/main_menu_page/finance.svg', 'FINANCE', '2'],
+    ['assets/icon/main_menu_page/oss.svg', 'OSS', '8'],
+    ['assets/icon/main_menu_page/tools.svg', 'Tools', '10'],
+    ['assets/icon/main_menu_page/video.svg', 'Video', '10'],
+    ['assets/icon/main_menu_page/LINK.svg', 'Link', '6'],
   ];
 
   mainMenuHeaderLogo() {
@@ -196,13 +196,13 @@ class _MainMenuState extends State<MainMenu> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 32.0),
+            padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 8.0,
+                crossAxisSpacing: 4.0,
                 mainAxisSpacing: 4.0,
                 crossAxisCount: 2,
-                childAspectRatio: 1.8,
+                childAspectRatio: 1.6,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -221,11 +221,20 @@ class _MainMenuState extends State<MainMenu> {
                               );
                               break;
                             default:
-                              return Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainMenu()),
-                              );
+                              return Future.delayed(
+                                  Duration(milliseconds: 200))
+                                  .then((_) {
+                                final snackBar = SnackBar(
+                                    content: Text(string.text.lbl_locked_apps),
+                                    action: SnackBarAction(
+                                      label: 'OK',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ));
+                                Scaffold.of(context)
+                                    .showSnackBar(snackBar);
+                              });
                               break;
                           }
                         },

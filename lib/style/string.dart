@@ -37,6 +37,8 @@ class text {
   static var lbl_username = "Username";
   static var lbl_password = "Password";
   static var lbl_human_capital = "Human Capital";
+  static var lbl_locked_apps = "aplikasi segera hadir";
+  static var lbl_cek_koneksi_internet = "Cek koneksi internet anda!";
 
   static var hint_text = "xxxxxx";
   static var hint_password= "xxxxxx";
@@ -52,9 +54,9 @@ class text {
   static var uri_bg_profile   = "assets/images/bg_profile.png";
   static var uri_bg_detail_profile   = "assets/images/bg_detail_profile.png";
   static var uri_gender   = "assets/icon/profile_page/gender.svg";
-  static var uri_brithday   = "assets/icon/profile_page/brithday.svg";
+  static var uri_brithday   = "assets/icon/profile_page/birthday.svg";
   static var uri_religion   = "assets/icon/profile_page/religion.svg";
-  static var uri_status_merried   = "assets/icon/profile_page/status.svg";
+  static var uri_status_merried   = "assets/icon/profile_page/profile.svg";
   static var uri_office   = "assets/icon/profile_page/office.svg";
   static var uri_email   = "assets/icon/profile_page/email.svg";
   static var uri_team   = "assets/icon/profile_page/team.svg";
