@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:super_apps/ui/login_page.dart';
+
+BuildContext ctx;
+ProgressDialog pr;
 
 String nik = '';
 String nama = '';
@@ -39,12 +44,14 @@ class _Profile extends State<Profile> {
         margin: EdgeInsets.only(right: 8.0),
         width: heightProfileImg,
         height: heightProfileImg,
-        alignment: Alignment(0,0),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white70
+        alignment: Alignment(0, 0),
+        decoration:
+            BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
+        child: Icon(
+          Icons.person,
+          size: 86.0,
+          color: Colors.grey,
         ),
-        child: Icon(Icons.person, size: 86.0, color: Colors.grey,),
       );
     } else {
       return Container(
@@ -71,6 +78,8 @@ class _Profile extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    ctx = context;
+    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
     setState(() {
       widthDevice = MediaQuery.of(context).size.width;
       heightDevice = MediaQuery.of(context).size.height;
@@ -99,34 +108,65 @@ class _Profile extends State<Profile> {
                     children: <Widget>[
                       imgProfile(),
                       Container(
-                        width: widthDevice - (heightProfileImg + 16.0 + 8.0),
+                        height: heightProfileImg,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              nik,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16.0),
-                            ),
                             Container(
-                              margin: EdgeInsets.only(top: 2.0),
-                              child: Text(
-                                nama,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0),
+                              child: InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setString('username', '');
+                                  prefs.commit();
+                                  pr.hide();
+                                  Navigator.push(
+                                    ctx,
+                                    MaterialPageRoute(builder: (context) => new Login()),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  string.text.uri_logout,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: 32.0,
+                                ),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                jabatan,
-                                style: TextStyle(
-                                    color: Colors.white70, fontSize: 14.0),
+                              width:
+                                  widthDevice - (heightProfileImg + 16.0 + 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Text(
+                                    nik,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.0),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 2.0),
+                                    child: Text(
+                                      nama,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16.0),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      jabatan,
+                                      style: TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 14.0),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -137,234 +177,234 @@ class _Profile extends State<Profile> {
                 ),
                 Container(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minHeight: heightDevice - (heightProfileImg + 64.0)),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(
-                            32.0, heightDevice * .12, 32.0, 32.0),
-                        margin: EdgeInsets.only(top: 8.0, right: 16.0),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(string.text.uri_bg_detail_profile),
-                            fit: BoxFit.fill,
+                  constraints: BoxConstraints(
+                      minHeight: heightDevice - (heightProfileImg + 64.0)),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(
+                        32.0, heightDevice * .12, 32.0, 32.0),
+                    margin: EdgeInsets.only(top: 8.0, right: 16.0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(string.text.uri_bg_detail_profile),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_gender,
+                                  semanticsLabel: string.text.lbl_jenis_kelamin,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  jenis_kelamin,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_gender,
-                                      semanticsLabel: string.text.lbl_jenis_kelamin,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      jenis_kelamin,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_brithday,
+                                  semanticsLabel: string.text.lbl_hari_lahir,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_brithday,
-                                      semanticsLabel: string.text.lbl_hari_lahir,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      tempat_tanggal_lahir,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
+                              SizedBox(
+                                width: 16.0,
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_religion,
-                                      semanticsLabel: string.text.lbl_agama,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      agama,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  tempat_tanggal_lahir,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_status_merried,
-                                      semanticsLabel:
-                                      string.text.lbl_status_menikah,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      status_kerja,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_office,
-                                      semanticsLabel: string.text.lbl_kantor,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      lokasi_kerja,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_email,
-                                      semanticsLabel: string.text.lbl_email,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Text(
-                                      email,
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 16.0),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    child: SvgPicture.asset(
-                                      string.text.uri_team,
-                                      placeholderBuilder: (context) =>
-                                          Icon(Icons.error),
-                                      width: widthIcon,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Container(
-                                    width: widthDevice -
-                                        (16.0 + 32.0 + 16.0 + widthDataProfile),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          atasan,
-                                          style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 16.0),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    )),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_religion,
+                                  semanticsLabel: string.text.lbl_agama,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  agama,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_status_merried,
+                                  semanticsLabel:
+                                      string.text.lbl_status_menikah,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  status_kerja,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_office,
+                                  semanticsLabel: string.text.lbl_kantor,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  lokasi_kerja,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_email,
+                                  semanticsLabel: string.text.lbl_email,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Text(
+                                  email,
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                child: SvgPicture.asset(
+                                  string.text.uri_team,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              Container(
+                                width: widthDevice -
+                                    (16.0 + 32.0 + 16.0 + widthDataProfile),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      atasan,
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 16.0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
               ]),
             )
           ],
@@ -431,16 +471,16 @@ class dataProfile {
 
   dataProfile(
       {this.nik,
-        this.nama,
-        this.jabatan,
-        this.jenis_kelamin,
-        this.tempat_tanggal_lahir,
-        this.agama,
-        this.status_kerja,
-        this.lokasi_kerja,
-        this.email,
-        this.atasan,
-        this.foto});
+      this.nama,
+      this.jabatan,
+      this.jenis_kelamin,
+      this.tempat_tanggal_lahir,
+      this.agama,
+      this.status_kerja,
+      this.lokasi_kerja,
+      this.email,
+      this.atasan,
+      this.foto});
 
   factory dataProfile.fromJson(Map<String, dynamic> parsedJson) {
     return dataProfile(

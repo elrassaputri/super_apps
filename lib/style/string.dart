@@ -45,6 +45,7 @@ class text {
 
   static var msg_lokasi_tidak_ada = "${lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
 
+//  URI Images
   static var uri_logo_ta_putih         = "assets/images/logo_ta_putih.png";
   static var uri_absen_masuk           = "assets/images/absen_masuk_fingerprint.gif";
   static var uri_human_capital_absen   = "assets/images/human_capital_absen.png";
@@ -53,6 +54,8 @@ class text {
   static var uri_login_header   = "assets/images/login_header.png";
   static var uri_bg_profile   = "assets/images/bg_profile.png";
   static var uri_bg_detail_profile   = "assets/images/bg_detail_profile.png";
+
+//  URI Icon Profile Page
   static var uri_gender   = "assets/icon/profile_page/gender.svg";
   static var uri_brithday   = "assets/icon/profile_page/birthday.svg";
   static var uri_religion   = "assets/icon/profile_page/religion.svg";
@@ -60,6 +63,10 @@ class text {
   static var uri_office   = "assets/icon/profile_page/office.svg";
   static var uri_email   = "assets/icon/profile_page/email.svg";
   static var uri_team   = "assets/icon/profile_page/team.svg";
+  static var uri_logout   = "assets/icon/profile_page/logout.svg";
+
+//  URI Icon Main Menu Page
+  static var uri_locked_apps = "assets/icon/main_menu_page/coming_soon.svg";
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";

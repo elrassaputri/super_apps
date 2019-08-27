@@ -99,13 +99,12 @@ class _MainMenuState extends State<MainMenu> {
     if(status == 'locked'){
       cardColor = Colors.grey[350];
       iconColor = Colors.grey[600];
-      /*
       lockedApps = Container(
+        padding: EdgeInsets.all(16.0),
         alignment: Alignment(0,0),
-        child: Image.asset(string.text.uri_absen_masuk),
+        child: SvgPicture.asset(string.text.uri_locked_apps,
+            placeholderBuilder: (context) => Icon(Icons.error)),
       );
-
-       */
     } else {
       cardColor = Colors.white;
       iconColor = theme.Colors.iconMainMenu;
