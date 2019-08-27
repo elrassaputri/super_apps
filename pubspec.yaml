@@ -56,47 +56,13 @@ flutter:
   uses-material-design: true
   assets:
     #Absen
-    - assets/images/login_header.png
-    - assets/images/absen_masuk_fingerprint.gif
-
-    #Main menu
-    - assets/images/logo_ta_putih.png
-    - assets/images/bg_apps.png
-    - assets/images/quotes_3.jpg
-    - assets/images/tis.jpg
+    - assets/images/
 
     #icon main menu page
-    - assets/icon/main_menu_page/document_management.svg
-    - assets/icon/main_menu_page/finance.svg
-    - assets/icon/main_menu_page/human_capital.svg
-    - assets/icon/main_menu_page/LINK.svg
-    - assets/icon/main_menu_page/oss.svg
-    - assets/icon/main_menu_page/project.svg
-    - assets/icon/main_menu_page/supply_chain.svg
-    - assets/icon/main_menu_page/tools.svg
-    - assets/icon/main_menu_page/video.svg
-
-    #Profile bg
-    - assets/images/bg_profile.png
-    - assets/images/bg_detail_profile.png
+    - assets/icon/main_menu_page/
 
     #Icon Profile Page
-    - assets/icon/profile_page/birthday.svg
-    - assets/icon/profile_page/email.svg
-    - assets/icon/profile_page/gender.svg
-    - assets/icon/profile_page/office.svg
-    - assets/icon/profile_page/religion.svg
-    - assets/icon/profile_page/profile.svg
-    - assets/icon/profile_page/team.svg
-
-    #Lokasi Kantor
-    -  assets/images/lokasi_kantor.png
-    -  assets/images/naker.png
-
-    #Human Capital
-    - assets/images/human_capital_lokasi_kantor.gif
-    - assets/images/human_capital_report_absen.gif
-    - assets/images/human_capital_absen.png
+    - assets/icon/profile_page/
   # To add assets to your application, add an assets section, like this:
   #
   #

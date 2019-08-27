@@ -51,19 +51,20 @@ class _MainMenuState extends State<MainMenu> {
 
   double widthDevice;
   List<List<String>> listMenu = [
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
+    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3', 'unlocked'],
     [
-      'assets/icon/main_menu_page/document_management.svg',
+      'assets/icon/main_menu_page/document_management_abu.svg',
       'Document Management',
-      '2'
+      '2',
+      'locked'
     ],
-    ['assets/icon/main_menu_page/project.svg', 'Project', '1'],
-    ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '5'],
-    ['assets/icon/main_menu_page/finance.svg', 'FINANCE', '2'],
-    ['assets/icon/main_menu_page/oss.svg', 'OSS', '8'],
-    ['assets/icon/main_menu_page/tools.svg', 'Tools', '10'],
-    ['assets/icon/main_menu_page/video.svg', 'Video', '10'],
-    ['assets/icon/main_menu_page/LINK.svg', 'Link', '6'],
+    ['assets/icon/main_menu_page/project_abu.svg', 'Project', '1', 'locked'],
+    ['assets/icon/main_menu_page/supply_chain_abu.svg', 'Supply Chain', '5', 'locked'],
+    ['assets/icon/main_menu_page/finance_abu.svg', 'FINANCE', '2', 'locked'],
+    ['assets/icon/main_menu_page/oss_abu.svg', 'OSS', '8', 'locked'],
+    ['assets/icon/main_menu_page/tools_abu.svg', 'Tools', '10', 'locked'],
+    ['assets/icon/main_menu_page/video_abu.svg', 'Video', '10', 'locked'],
+    ['assets/icon/main_menu_page/LINK_abu.svg', 'Link', '6', 'locked'],
   ];
 
   mainMenuHeaderLogo() {
@@ -85,8 +86,16 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  mainMenuItem({String icon, String title, int numApp}) {
+  mainMenuItem({String icon, String title, String status, int numApp}) {
     Widget itemSubTitle;
+    Color cardColor, iconColor;
+    if(status == 'locked'){
+      cardColor = Colors.grey[350];
+      iconColor = Colors.grey[600];
+    } else {
+      cardColor = Colors.white;
+      iconColor = theme.Colors.iconMainMenu;
+    }
 
     if (numApp == 1) {
       itemSubTitle = Container(
@@ -111,29 +120,36 @@ class _MainMenuState extends State<MainMenu> {
       );
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: 46.0,
-          child: SvgPicture.asset(icon,
-              placeholderBuilder: (context) => Icon(Icons.error)),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
-              color: theme.Colors.iconMainMenu,
+    return Container(
+      decoration: BoxDecoration(
+          color: cardColor,
+        borderRadius: BorderRadius.circular(8.0)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: 46.0,
+            child: SvgPicture.asset(icon,
+                color: Colors.red,
+                placeholderBuilder: (context) => Icon(Icons.error)),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+                color: iconColor,
+              ),
             ),
           ),
-        ),
-        itemSubTitle,
-      ],
+          itemSubTitle,
+        ],
+      ),
     );
   }
 
@@ -209,6 +225,9 @@ class _MainMenuState extends State<MainMenu> {
                   return Container(
                     alignment: Alignment.center,
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
@@ -242,6 +261,7 @@ class _MainMenuState extends State<MainMenu> {
                           icon: listMenu[index][0],
                           title: listMenu[index][1],
                           numApp: int.parse(listMenu[index][2]),
+                          status: listMenu[index][3]
                         ),
                       ),
                     ),
