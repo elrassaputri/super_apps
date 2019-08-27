@@ -88,10 +88,18 @@ class _MainMenuState extends State<MainMenu> {
 
   mainMenuItem({String icon, String title, String status, int numApp}) {
     Widget itemSubTitle;
+    Widget lockedApps = Container();
     Color cardColor, iconColor;
     if(status == 'locked'){
       cardColor = Colors.grey[350];
       iconColor = Colors.grey[600];
+      /*
+      lockedApps = Container(
+        alignment: Alignment(0,0),
+        child: Image.asset(string.text.uri_absen_masuk),
+      );
+
+       */
     } else {
       cardColor = Colors.white;
       iconColor = theme.Colors.iconMainMenu;
@@ -121,35 +129,39 @@ class _MainMenuState extends State<MainMenu> {
     }
 
     return Container(
-      decoration: BoxDecoration(
-          color: cardColor,
-        borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: 46.0,
-            child: SvgPicture.asset(icon,
-                color: Colors.red,
-                placeholderBuilder: (context) => Icon(Icons.error)),
+          decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(8.0)
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.w500,
-                color: iconColor,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 46.0,
+                    child: SvgPicture.asset(icon,
+                        placeholderBuilder: (context) => Icon(Icons.error)),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500,
+                        color: iconColor,
+                      ),
+                    ),
+                  ),
+                  itemSubTitle,
+                ],
               ),
-            ),
-          ),
-          itemSubTitle,
-        ],
-      ),
+              lockedApps,
+            ],
+          )
     );
   }
 

@@ -142,8 +142,6 @@ class _Absen extends State<Absen> {
         jenisAbsen = 'null';
       });
     }
-    print(status);
-    print(jenisAbsen);
     return jenisAbsen;
   }
 
@@ -171,10 +169,14 @@ class _Absen extends State<Absen> {
       );
 
       final dataResponse = json.decode(response.body);
-      message = dataResponse['message'];
+      setState(() {
+        message = dataResponse['message'];
+      });
       getStatusMasuk();
     } else {
-      message = string.text.msg_lokasi_tidak_ada;
+      setState(() {
+        message = string.text.msg_lokasi_tidak_ada;
+      });
     }
   }
 
