@@ -149,12 +149,12 @@ class _Login extends State<Login> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('username', username);
       prefs.commit();
-
+      pr.hide();
       Navigator.push(
         ctx,
         MaterialPageRoute(builder: (context) => new Menu()),
       );
-      pr.hide();
+
     } else {
       Toast.show(message, ctx,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
