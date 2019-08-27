@@ -26,8 +26,6 @@ Location location = Location();
 Map<String, double> currentLocation;
 ProgressDialog pr;
 
-
-
 class Absen extends StatefulWidget {
   Absen({Key key}) : super(key: key);
 
@@ -155,7 +153,7 @@ class _Absen extends State<Absen> {
   }
 
   _postAbsen() async {
-    pr.show();
+    //pr.show();
     onLocation = authLocation();
     if (onLocation == 'OK') {
       final uri = api.Api.absen;
@@ -178,13 +176,15 @@ class _Absen extends State<Absen> {
         encoding: encoding,
       );
 
+      //pr.hide();
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
       getStatusMasuk();
+
     } else {
       message = string.text.msg_lokasi_tidak_ada;
     }
-    pr.hide();
+
   }
 
   @override
@@ -243,6 +243,7 @@ class _Absen extends State<Absen> {
                                   Builder(
                                     builder: (context) => GestureDetector(
                                       onTap: () {
+                                        //pr.show();
                                         _postAbsen();
                                         if (onLocation == true){
                                           if (jenisAbsen == 'masuk') {
@@ -305,6 +306,7 @@ class _Absen extends State<Absen> {
                                                 ));
                                             Scaffold.of(context)
                                                 .showSnackBar(snackBar);
+
                                           });
                                         }
                                       },

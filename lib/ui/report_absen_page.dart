@@ -11,6 +11,7 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_tooltip/super_tooltip.dart';
+import 'package:toast/toast.dart';
 
 int lengthReportAbsen = 0;
 List<String> tanggalAbsen = [];
@@ -496,6 +497,7 @@ class _ReportPageState extends State<ReportPage> {
                   child: Text(
                     string.text.lbl_tanggal,
                     style: TextStyle(
+                      fontSize: 10,
                       color: Colors.white,
                     ),
                   ),
@@ -737,6 +739,7 @@ class _ReportPageState extends State<ReportPage> {
     });
   }
 
+  var data_absensi;
   makeGetRequest() async {
     pr.show();
     final uri =
@@ -746,7 +749,7 @@ class _ReportPageState extends State<ReportPage> {
     Response response = await get(uri, headers: headers);
 
     var data = jsonDecode(response.body);
-    var data_absensi = (data["data"] as List)
+    data_absensi = (data["data"] as List)
         .map((data) => new dataReport.fromJson(data))
         .toList();
 
@@ -758,6 +761,19 @@ class _ReportPageState extends State<ReportPage> {
     setState(() {
       lengthReportAbsen = data_absensi.length;
     });
+
+    if(data_absensi.length < 1){
+
+      Toast.show("Data anda Kosong", ctx,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+
+    }else{
+      tanggalAbsen.clear();
+      jamMasukAbsen.clear();
+      jamPulangAbsen.clear();
+      ketAbsen.clear();
+    }
+
     for (var ini = 0; ini < data_absensi.length; ini++) {
       //TODO setstate
       setState(() {
