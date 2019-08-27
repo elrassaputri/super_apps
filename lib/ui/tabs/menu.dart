@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../absen_page.dart';
 import '../main_menu_page.dart';
 import '../profile_page.dart';
@@ -49,11 +50,11 @@ class _Menu extends State<Menu>{
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.fingerprint),
             title: Text('Absen'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.person),
             title: Text('Profile'),
           ),
         ],

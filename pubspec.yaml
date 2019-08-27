@@ -85,12 +85,12 @@ flutter:
     - assets/images/bg_detail_profile.png
 
     #Icon Profile Page
-    - assets/icon/profile_page/brithday.svg
+    - assets/icon/profile_page/birthday.svg
     - assets/icon/profile_page/email.svg
     - assets/icon/profile_page/gender.svg
     - assets/icon/profile_page/office.svg
     - assets/icon/profile_page/religion.svg
-    - assets/icon/profile_page/status.svg
+    - assets/icon/profile_page/profile.svg
     - assets/icon/profile_page/team.svg
 
     #Lokasi Kantor

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_tooltip/super_tooltip.dart';
-import 'package:toast/toast.dart';
 
 int lengthReportAbsen = 0;
 List<String> tanggalAbsen = [];
@@ -19,6 +19,9 @@ List<String> jamPulangAbsen = [];
 List<String> ketAbsen = [];
 String message;
 String status;
+
+ProgressDialog pr;
+
 
 String date1 = '';
 String date2 = '';
@@ -75,8 +78,6 @@ class _ReportPageState extends State<ReportPage> {
     return items;
   }
 
-
-
   final text = new Text(
     string.text.lbl_tulis_disini,
     style: new TextStyle(fontSize: 50.0),
@@ -91,6 +92,8 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
 
     void onTap() {
       if (tooltip != null && tooltip.isOpen) {
@@ -467,19 +470,10 @@ class _ReportPageState extends State<ReportPage> {
             ],
           ),
         ));
-//
-//
-     onTap2(){
-//       if(back > 4){
-//         Navigator.of(context).pop();
-//       }
-//       back++;
-     }
 
     return new
 
     WillPopScope(
-      onWillPop: onTap2(),
       child:
     Scaffold(
       appBar: new AppBar(
@@ -744,6 +738,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   makeGetRequest() async {
+    pr.show();
     final uri =
         api.Api.report_absen + "$nik/$date1/$date2/${_selectedKeterangan}";
     print(uri);
@@ -759,6 +754,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   void foreachHasil(List<dataReport> data_absensi) {
+    pr.hide();
     setState(() {
       lengthReportAbsen = data_absensi.length;
     });

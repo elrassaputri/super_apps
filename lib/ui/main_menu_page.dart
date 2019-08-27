@@ -30,17 +30,21 @@ class _MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     getNik();
+
+
   }
+
+
 
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState((){
       nik = (prefs.getString('username') ?? '');
-      getDataMenu();
+      getDataMenu(context);
     });
   }
 
-  Future<String> getDataMenu() async {
+  Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
     var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
         headers: {"Accept": "application/json"});
@@ -48,24 +52,24 @@ class _MainMenuState extends State<MainMenu> {
     var data_profile = (data["data"] as List)
         .map((data) => new dataProfile.fromJson(data))
         .toList();
-    foreachHasil(data_profile);
+    foreachHasil(data_profile,context);
   }
 
   double widthDevice;
   List<List<String>> listMenu = [
+    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
     [
       'assets/icon/main_menu_page/document_management.svg',
       'Document Management',
-      '8'
+      '2'
     ],
-    ['assets/icon/main_menu_page/finance.svg', 'FENANCE', '6'],
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3'],
-    ['assets/icon/main_menu_page/LINK.svg', 'Link', '1'],
-    ['assets/icon/main_menu_page/oss.svg', 'OSS', '5'],
-    ['assets/icon/main_menu_page/project.svg', 'Project', '8'],
-    ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '1'],
-    ['assets/icon/main_menu_page/tools.svg', 'Tools', '4'],
-    ['assets/icon/main_menu_page/video.svg', 'Video', '11'],
+    ['assets/icon/main_menu_page/project.svg', 'Project', '1'],
+    ['assets/icon/main_menu_page/supply_chain.svg', 'Supply Chain', '5'],
+    ['assets/icon/main_menu_page/finance.svg', 'FINANCE', '2'],
+    ['assets/icon/main_menu_page/oss.svg', 'OSS', '8'],
+    ['assets/icon/main_menu_page/tools.svg', 'Tools', '10'],
+    ['assets/icon/main_menu_page/video.svg', 'Video', '10'],
+    ['assets/icon/main_menu_page/LINK.svg', 'Link', '6'],
   ];
 
   mainMenuHeaderLogo() {
@@ -199,13 +203,13 @@ class _MainMenuState extends State<MainMenu> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 32.0),
+            padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 8.0,
+                crossAxisSpacing: 4.0,
                 mainAxisSpacing: 4.0,
                 crossAxisCount: 2,
-                childAspectRatio: 1.8,
+                childAspectRatio: 1.6,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -227,9 +231,6 @@ class _MainMenuState extends State<MainMenu> {
                               Toast.show("Menu Yang Tersedia Baru Human Capital", ctx,
                                   duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                               return null ;
-
-                                    //builder: (context) => MainMenu()),
-                              //);
                               break;
                           }
                         },
@@ -251,13 +252,40 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void foreachHasil(List<dataProfile> data_profile) {
+  void _showDialog(BuildContext context,String str){
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert"),
+          content: new Text(str),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
     for (int ini = 0; ini < data_profile.length; ini++) {
       setState(() {
         notif = data_profile[ini].notif;
         imgList = data_profile[ini].foto;
         print(imgList);
       });
+    }
+
+    if(notif != "-"){
+      _showDialog(ctx,notif);
     }
   }
 }

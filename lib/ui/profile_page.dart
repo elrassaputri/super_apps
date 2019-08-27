@@ -69,7 +69,8 @@ class _Profile extends State<Profile> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment(0, -1),
                                   image: NetworkImage(
                                       foto, scale: 1.0)))),
                       Container(

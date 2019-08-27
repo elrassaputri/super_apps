@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:intl/intl.dart';
 import 'package:imei_plugin/imei_plugin.dart';
@@ -18,11 +19,13 @@ String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
 String jenisAbsen = '';
 String absenTitle = 'Absen Masuk';
-String message = '';
+String message = string.text.lbl_cek_koneksi_internet;
 String nik = '';
 String onLocation = 'NOK';
 Location location = Location();
 Map<String, double> currentLocation;
+ProgressDialog pr;
+
 
 
 class Absen extends StatefulWidget {
@@ -152,6 +155,7 @@ class _Absen extends State<Absen> {
   }
 
   _postAbsen() async {
+    pr.show();
     onLocation = authLocation();
     if (onLocation == 'OK') {
       final uri = api.Api.absen;
@@ -180,10 +184,12 @@ class _Absen extends State<Absen> {
     } else {
       message = string.text.msg_lokasi_tidak_ada;
     }
+    pr.hide();
   }
 
   @override
   Widget build(BuildContext context) {
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;

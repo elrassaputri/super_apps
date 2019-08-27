@@ -123,17 +123,7 @@ class _Login extends State<Login> {
 
   Socket socket;
   checkInternet(username,password)  {
-   // Socket.connect(api.Api.host_i, 80).then((socket) {
       makePostRequest(username,password);
-//      socket.destroy();
-//    }).catchError((_){
-//      _showDialog();
-//      pr.hide();
-//    });
-
-//    final channel = new IOWebSocketChannel.connect("ws://192.168.1.139/client");
-
-
   }
 
 
@@ -172,40 +162,13 @@ class _Login extends State<Login> {
   }
 
   Future Islogin() async {
-    //pr.show();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var login = (prefs.getString("username") ?? '');
-    //pr.hide();
     if (login != '') {
       Navigator.pushReplacement(
           ctx, MaterialPageRoute(builder: (context) => new Menu()));
     }
   }
-
-  void _showDialog(){
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Alert"),
-          content: new Text("Koneksi Terputus"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-
 
   Map<String, double> currentLocation;
   Location location = Location();
