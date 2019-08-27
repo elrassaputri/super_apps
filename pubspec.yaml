@@ -40,6 +40,10 @@ dependencies:
   sticky_headers: ^0.1.7
   speech_bubble: ^0.0.5
   super_tooltip: ^0.9.0
+  progress_dialog: ^1.1.0+1
+  dart_ping: ^1.0.0
+
+
 
 dev_dependencies:
   flutter_test:

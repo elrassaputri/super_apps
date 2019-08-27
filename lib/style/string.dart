@@ -40,8 +40,8 @@ class text {
   static var lbl_locked_apps = "aplikasi segera hadir";
   static var lbl_cek_koneksi_internet = "Cek koneksi internet anda!";
 
-  static var hint_text = "xxxxxx";
-  static var hint_password= "xxxxxx";
+  static var hint_text = "";
+  static var hint_password= "";
 
   static var msg_lokasi_tidak_ada = "${lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
 

@@ -1,7 +1,10 @@
 
 class Api{
   // host
-  static var host = "http://10.204.200.8:";
+
+  static var host_i = "10.204.200.8";
+
+  static var host = "http://${host_i}:";
 
   // port
   static var p_absen = "3000";

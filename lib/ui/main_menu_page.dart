@@ -9,10 +9,12 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:toast/toast.dart';
 
 String nik = '';
 List imgList = [];
 String notif = '';
+BuildContext ctx;
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
@@ -28,17 +30,21 @@ class _MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     getNik();
+
+
   }
+
+
 
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState((){
       nik = (prefs.getString('username') ?? '');
-      getDataMenu();
+      getDataMenu(context);
     });
   }
 
-  Future<String> getDataMenu() async {
+  Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
     var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
         headers: {"Accept": "application/json"});
@@ -46,7 +52,7 @@ class _MainMenuState extends State<MainMenu> {
     var data_profile = (data["data"] as List)
         .map((data) => new dataProfile.fromJson(data))
         .toList();
-    foreachHasil(data_profile);
+    foreachHasil(data_profile,context);
   }
 
   double widthDevice;
@@ -168,6 +174,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
+     ctx = context;
 
     Widget mainMenuSlideShow = Container(
       height: widthDevice * .4,
@@ -252,20 +259,9 @@ class _MainMenuState extends State<MainMenu> {
                               );
                               break;
                             default:
-                              return Future.delayed(
-                                  Duration(milliseconds: 200))
-                                  .then((_) {
-                                final snackBar = SnackBar(
-                                    content: Text(string.text.lbl_locked_apps),
-                                    action: SnackBarAction(
-                                      label: 'OK',
-                                      onPressed: () {
-                                        // Some code to undo the change.
-                                      },
-                                    ));
-                                Scaffold.of(context)
-                                    .showSnackBar(snackBar);
-                              });
+                              Toast.show("Menu Yang Tersedia Baru Human Capital", ctx,
+                                  duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                              return null ;
                               break;
                           }
                         },
@@ -288,13 +284,40 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void foreachHasil(List<dataProfile> data_profile) {
+  void _showDialog(BuildContext context,String str){
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert"),
+          content: new Text(str),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
     for (int ini = 0; ini < data_profile.length; ini++) {
       setState(() {
         notif = data_profile[ini].notif;
         imgList = data_profile[ini].foto;
         print(imgList);
       });
+    }
+
+    if(notif != "-"){
+      _showDialog(ctx,notif);
     }
   }
 }

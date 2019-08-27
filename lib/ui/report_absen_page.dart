@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:super_apps/api/api.dart' as api;
@@ -19,16 +20,24 @@ List<String> ketAbsen = [];
 String message;
 String status;
 
+ProgressDialog pr;
+
+
 String date1 = '';
 String date2 = '';
 String nik = '';
+SuperTooltip tooltip;
+bool tooltips = false;
+BuildContext ctx;
+
+int back = 0;
 
 class ReportPage extends StatefulWidget {
   _ReportPageState createState() => new _ReportPageState();
 }
 
 class _ReportPageState extends State<ReportPage> {
-  SuperTooltip tooltip;
+
 
   GlobalKey _containerKey = GlobalKey();
 
@@ -69,162 +78,187 @@ class _ReportPageState extends State<ReportPage> {
     return items;
   }
 
-  ketWidgetAbsen(String ket) {
-    Widget ketIcon;
-    switch (ket) {
-      case 'p':
-        {
-          return ketIcon = Container(
-            color: Colors.greenAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('F', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'm':
-        {
-          return ketIcon = Container(
-            color: Colors.grey,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('M', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'f':
-        {
-          return ketIcon = Container(
-            color: Colors.greenAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('F', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'w':
-        {
-          return ketIcon = Container(
-            color: Colors.lightBlueAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('W', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'd':
-        {
-          return ketIcon = Container(
-            color: Colors.green,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('D', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 's':
-        {
-          return ketIcon = Container(
-            color: Colors.deepPurple,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('S', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'c':
-        {
-          return ketIcon = Container(
-            color: Colors.deepOrangeAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('C', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'i':
-        {
-          return ketIcon = Container(
-            color: Colors.purpleAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('I', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 't':
-        {
-          return ketIcon = Container(
-            color: Colors.indigo,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('T', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      case 'g':
-        {
-          return ketIcon = Container(
-            color: Colors.pinkAccent,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('G', style: TextStyle(color: Colors.white))),
-          );
-        }
-        break;
-      default:
-        {
-          return ketIcon = Container(
-            color: Colors.grey,
-            height: 25.0,
-            // height of the button
-            width: 25.0,
-            // width of the button
-            child:
-                Center(child: Text('M', style: TextStyle(color: Colors.white))),
-          );
-        }
-    }
+  final text = new Text(
+    string.text.lbl_tulis_disini,
+    style: new TextStyle(fontSize: 50.0),
+  );
+
+  getNik() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nik = (prefs.getString('username') ?? '');
+    });
   }
 
-  void onTap() {
-    if (tooltip != null && tooltip.isOpen) {
-      tooltip.close();
-      return;
+  @override
+  Widget build(BuildContext context) {
+
+    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
+
+    void onTap() {
+      if (tooltip != null && tooltip.isOpen) {
+        tooltip.close();
+        return;
+      }else{
+        tooltip.show(_containerKey.currentContext);
+      }
+      // We create the tooltip on the first use
+
     }
 
-    // We create the tooltip on the first use
+    ketWidgetAbsen(String ket) {
+      Widget ketIcon;
+      switch (ket) {
+        case 'p':
+          {
+            return ketIcon = Container(
+              color: Colors.greenAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('F', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'm':
+          {
+            return ketIcon = Container(
+              color: Colors.grey,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('M', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'f':
+          {
+            return ketIcon = Container(
+              color: Colors.greenAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('F', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'w':
+          {
+            return ketIcon = Container(
+              color: Colors.lightBlueAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('W', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'd':
+          {
+            return ketIcon = Container(
+              color: Colors.green,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('D', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 's':
+          {
+            return ketIcon = Container(
+              color: Colors.deepPurple,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('S', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'c':
+          {
+            return ketIcon = Container(
+              color: Colors.deepOrangeAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('C', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'i':
+          {
+            return ketIcon = Container(
+              color: Colors.purpleAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('I', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 't':
+          {
+            return ketIcon = Container(
+              color: Colors.indigo,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('T', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        case 'g':
+          {
+            return ketIcon = Container(
+              color: Colors.pinkAccent,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('G', style: TextStyle(color: Colors.white))),
+            );
+          }
+          break;
+        default:
+          {
+            return ketIcon = Container(
+              color: Colors.grey,
+              height: 25.0,
+              // height of the button
+              width: 25.0,
+              // width of the button
+              child:
+              Center(child: Text('M', style: TextStyle(color: Colors.white))),
+            );
+          }
+      }
+    }
+
+    var width = MediaQuery.of(context).size.width;
+    ctx = context;
+
     tooltip = SuperTooltip(
+
         popupDirection: TooltipDirection.down,
         arrowTipDistance: 10.0,
         maxHeight: 300,
@@ -428,7 +462,7 @@ class _ReportPageState extends State<ReportPage> {
                       Container(
                           padding: EdgeInsets.only(top: 5),
                           child:
-                              Text(" : " + string.text.lbl_penugasan_di_luar)),
+                          Text(" : " + string.text.lbl_penugasan_di_luar)),
                     ],
                   ),
                 ],
@@ -437,26 +471,11 @@ class _ReportPageState extends State<ReportPage> {
           ),
         ));
 
-    tooltip.show(_containerKey.currentContext);
-  }
+    return new
 
-  final text = new Text(
-    string.text.lbl_tulis_disini,
-    style: new TextStyle(fontSize: 50.0),
-  );
-
-  getNik() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nik = (prefs.getString('username') ?? '');
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-
-    return new Scaffold(
+    WillPopScope(
+      child:
+    Scaffold(
       appBar: new AppBar(
         backgroundColor: theme.Colors.backgroundHumanCapital,
         title: Text(string.text.page_report_absen,
@@ -578,7 +597,7 @@ class _ReportPageState extends State<ReportPage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(left: 15, right: 15),
+                  padding: EdgeInsets.only(left: 15, right: 25),
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
                         side: BorderSide(width: 0, style: BorderStyle.solid),
@@ -588,6 +607,7 @@ class _ReportPageState extends State<ReportPage> {
                   child: DropdownButton(
                     value: _selectedKeterangan,
                     items: _dropDownMenuItems,
+                    isExpanded: true,
                     onChanged: changedDropDownItem,
                   ),
                 ),
@@ -706,8 +726,9 @@ class _ReportPageState extends State<ReportPage> {
           ),
         ]),
       ),
-    );
+    ));
     //);
+
   }
 
   void changedDropDownItem(String selectedCity) {
@@ -717,6 +738,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   makeGetRequest() async {
+    pr.show();
     final uri =
         api.Api.report_absen + "$nik/$date1/$date2/${_selectedKeterangan}";
     print(uri);
@@ -732,6 +754,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   void foreachHasil(List<dataReport> data_absensi) {
+    pr.hide();
     setState(() {
       lengthReportAbsen = data_absensi.length;
     });
