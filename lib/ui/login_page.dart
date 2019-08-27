@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
+import 'package:dart_ping/dart_ping.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:imei_plugin/imei_plugin.dart';
+import 'package:location/location.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:super_apps/style//string.dart' as string;
@@ -14,6 +19,9 @@ import 'package:super_apps/api/api.dart' as api;
 TextEditingController usernameController = new TextEditingController();
 TextEditingController passwordController = new TextEditingController();
 BuildContext ctx;
+ProgressDialog pr;
+
+
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class Login extends StatefulWidget {
@@ -32,17 +40,17 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     // TODO: implement build
     ctx = context;
+    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
+    getImei();
+
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: theme.Colors.backgroundLogin,
-      ),
       body: CustomScrollView(slivers: <Widget>[
         SliverList(
           delegate: SliverChildListDelegate([
             Container(
               color: theme.Colors.backgroundLogin,
-              margin: const EdgeInsets.only(top: 0),
+              margin: const EdgeInsets.only(top: 30),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -94,7 +102,8 @@ class _Login extends State<Login> {
                       child: new RaisedButton(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         onPressed: () async {
-                          makePostRequest(usernameController.text.toString(),
+                          //pr.show();
+                          checkInternet(usernameController.text.toString(),
                               passwordController.text.toString());
                         },
                         child: Text(string.text.lbl_login),
@@ -112,7 +121,24 @@ class _Login extends State<Login> {
     );
   }
 
-  void makePostRequest(username, password) async {
+  Socket socket;
+  checkInternet(username,password)  {
+   // Socket.connect(api.Api.host_i, 80).then((socket) {
+      makePostRequest(username,password);
+//      socket.destroy();
+//    }).catchError((_){
+//      _showDialog();
+//      pr.hide();
+//    });
+
+//    final channel = new IOWebSocketChannel.connect("ws://192.168.1.139/client");
+
+
+  }
+
+
+  Future makePostRequest(username, password) async {
+    pr.show();
     final uri = api.Api.login;
     print("url ::" + uri + "/" + username);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -125,7 +151,7 @@ class _Login extends State<Login> {
       encoding: encoding,
     );
 
-    String responseBody = response.body;
+      String responseBody = response.body;
     bool status = json.decode(responseBody)["status"];
     var message = json.decode(responseBody)["message"];
 
@@ -133,10 +159,12 @@ class _Login extends State<Login> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('username', username);
       prefs.commit();
+
       Navigator.push(
         ctx,
         MaterialPageRoute(builder: (context) => new Menu()),
       );
+      pr.hide();
     } else {
       Toast.show(message, ctx,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
@@ -144,17 +172,60 @@ class _Login extends State<Login> {
   }
 
   Future Islogin() async {
+    //pr.show();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var login = (prefs.getString("username") ?? '');
+    //pr.hide();
     if (login != '') {
       Navigator.pushReplacement(
           ctx, MaterialPageRoute(builder: (context) => new Menu()));
     }
   }
 
+  void _showDialog(){
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert"),
+          content: new Text("Koneksi Terputus"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+  Map<String, double> currentLocation;
+  Location location = Location();
+  String imei;
   @override
   void initState() {
     super.initState();
     Islogin();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
   }
+
+  getImei() async {
+    var imeiId = await ImeiPlugin.getImei;
+    setState(() {
+      imei = imeiId;
+    });
+  }
+
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:intl/intl.dart';
@@ -23,6 +24,7 @@ String onLocation = 'NOK';
 Location location = Location();
 Map<String, double> currentLocation;
 
+
 class Absen extends StatefulWidget {
   Absen({Key key}) : super(key: key);
 
@@ -32,11 +34,14 @@ class Absen extends StatefulWidget {
 class _Absen extends State<Absen> {
   String _timeString;
   var data;
+  static const platform = const MethodChannel('samples.flutter.io/location');
+  bool mocklocation = false;
 
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       nik = (prefs.getString('username') ?? '');
+      getStatusMasuk();
     });
   }
 
@@ -92,7 +97,6 @@ class _Absen extends State<Absen> {
         currentLocation = value;
       });
     });
-    getStatusMasuk();
     getNik();
     getImei();
   }

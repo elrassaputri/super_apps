@@ -9,10 +9,12 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:toast/toast.dart';
 
 String nik = '';
 List imgList = [];
 String notif = '';
+BuildContext ctx;
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
@@ -140,6 +142,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
+     ctx = context;
 
     Widget mainMenuSlideShow = Container(
       height: widthDevice * .4,
@@ -221,11 +224,12 @@ class _MainMenuState extends State<MainMenu> {
                               );
                               break;
                             default:
-                              return Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainMenu()),
-                              );
+                              Toast.show("Menu Yang Tersedia Baru Human Capital", ctx,
+                                  duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                              return null ;
+
+                                    //builder: (context) => MainMenu()),
+                              //);
                               break;
                           }
                         },

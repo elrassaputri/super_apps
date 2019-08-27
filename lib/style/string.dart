@@ -38,8 +38,8 @@ class text {
   static var lbl_password = "Password";
   static var lbl_human_capital = "Human Capital";
 
-  static var hint_text = "xxxxxx";
-  static var hint_password= "xxxxxx";
+  static var hint_text = "";
+  static var hint_password= "";
 
   static var msg_lokasi_tidak_ada = "${lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
 
