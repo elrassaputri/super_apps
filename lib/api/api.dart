@@ -2,15 +2,15 @@
 class Api{
   // host
 
-  static var host_i = "10.204.200.8";
-
+  // static var host_i = "10.204.200.8";
+  static var host_i = "203.130.242.238";
   static var host = "http://${host_i}:";
 
   // port
-  static var p_absen = "3000";
   static var p_hrmista = "3001";
   static var p_sso = "3002";
   static var p_super_apps = "3003";
+  static var p_absen = "3004";
 
   // app sso
   static var login = host+p_sso+"/auth_post_sso/";
