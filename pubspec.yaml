@@ -43,12 +43,18 @@ dependencies:
   progress_dialog: ^1.1.0+1
   dart_ping: ^1.0.0
   splashscreen: ^1.2.0
+  flutter_launcher_icons: ^0.7.2+1
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/apps/SUPERHANA_LOGO.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
