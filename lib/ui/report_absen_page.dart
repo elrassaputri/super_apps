@@ -62,6 +62,7 @@ class _ReportPageState extends State<ReportPage> {
     _dropDownMenuItems = getDropDownMenuItems();
     _selectedKeterangan = _dropDownMenuItems[0].value;
     super.initState();
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
     final DateTime now = DateTime.now();
     final String formattedDateTime = _formatDateTime(now);
     date1 = formattedDateTime;
@@ -93,8 +94,6 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
 
     void onTap() {
       if (tooltip != null && tooltip.isOpen) {
@@ -699,7 +698,7 @@ class _ReportPageState extends State<ReportPage> {
                                       padding: EdgeInsets.only(left: 16),
                                       child: Text((item + 1).toString()),
                                     ),
-                                    Text(tanggalAbsen[item]),
+                                    Text(tanggalAbsen[item], style: TextStyle(fontSize: 12.0),),
                                     Container(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Text(jamMasukAbsen[item]),

@@ -40,20 +40,20 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     // TODO: implement build
     ctx = context;
-    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
     getImei();
 
     return Scaffold(
+      backgroundColor: theme.Colors.backgroundLogin,
       key: _scaffoldKey,
       body: CustomScrollView(slivers: <Widget>[
         SliverList(
           delegate: SliverChildListDelegate([
             Container(
-              color: theme.Colors.backgroundLogin,
-              margin: const EdgeInsets.only(top: 30),
               child: Column(
                 children: <Widget>[
                   Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.only(top: 30),
                     child: new Image(
                         image:
                             new AssetImage(string.text.uri_login_header)),
@@ -144,20 +144,19 @@ class _Login extends State<Login> {
       String responseBody = response.body;
     bool status = json.decode(responseBody)["status"];
     var message = json.decode(responseBody)["message"];
+    pr.hide();
 
     if (status) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('username', username);
       prefs.commit();
-      pr.hide();
-      Navigator.push(
-        ctx,
-        MaterialPageRoute(builder: (context) => new Menu()),
-      );
+      Navigator.pushAndRemoveUntil(
+          ctx, MaterialPageRoute(builder: (context) => new Menu()),
+          ModalRoute.withName("/Menu"));
 
     } else {
       Toast.show(message, ctx,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
   }
 
@@ -165,8 +164,9 @@ class _Login extends State<Login> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var login = (prefs.getString("username") ?? '');
     if (login != '') {
-      Navigator.pushReplacement(
-          ctx, MaterialPageRoute(builder: (context) => new Menu()));
+      Navigator.pushAndRemoveUntil(
+          ctx, MaterialPageRoute(builder: (context) => new Menu()),
+          ModalRoute.withName("/Menu"));
     }
   }
 
@@ -176,6 +176,7 @@ class _Login extends State<Login> {
   @override
   void initState() {
     super.initState();
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
     Islogin();
     location.onLocationChanged().listen((value) {
       setState(() {

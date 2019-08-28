@@ -72,6 +72,7 @@ class _Profile extends State<Profile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
     getNik();
   }
 
@@ -79,7 +80,6 @@ class _Profile extends State<Profile> {
   Widget build(BuildContext context) {
     // TODO: implement build
     ctx = context;
-    pr = new ProgressDialog(ctx,ProgressDialogType.Normal);
     setState(() {
       widthDevice = MediaQuery.of(context).size.width;
       heightDevice = MediaQuery.of(context).size.height;
@@ -120,9 +120,10 @@ class _Profile extends State<Profile> {
                                   prefs.setString('username', '');
                                   prefs.commit();
                                   pr.hide();
-                                  Navigator.push(
+                                  Navigator.pushAndRemoveUntil(
                                     ctx,
                                     MaterialPageRoute(builder: (context) => new Login()),
+                                    ModalRoute.withName("/Login")
                                   );
                                 },
                                 child: SvgPicture.asset(

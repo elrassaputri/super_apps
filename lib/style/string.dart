@@ -22,8 +22,8 @@ class text {
   static var lbl_sppd = "SPPD";
   static var lbl_sakit = "Sakit";
   static var lbl_cuti = "Cuti";
-  static var lbl_pengganti_hari_libur = "Pengganti Hari Libur";
-  static var lbl_penugasan_di_luar = "Penugasan Di luar";
+  static var lbl_pengganti_hari_libur = "Penugasan Di luar";
+  static var lbl_penugasan_di_luar = "Pengganti Hari Libur";
   static var lbl_keterangan_absen = "Keterangan Absen";
   static var lbl_tulis_disini = "Tulis Disini";
   static var lbl_jenis_kelamin = "Jenis Kelamin";
@@ -46,7 +46,7 @@ class text {
   static var msg_lokasi_tidak_ada = "${lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
 
 //  URI Images
-  static var uri_logo_ta_putih         = "assets/images/logo_ta_putih.png";
+  static var uri_logo_ta_putih         = "assets/images/logo_ta_putih_nobwh.png";
   static var uri_absen_masuk           = "assets/images/absen_masuk_fingerprint.gif";
   static var uri_human_capital_absen   = "assets/images/human_capital_absen.png";
   static var uri_human_capital_report_absen   = "assets/images/human_capital_report_absen.gif";

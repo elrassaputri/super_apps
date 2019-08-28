@@ -13,15 +13,17 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
 String jenisAbsen = '';
 String absenTitle = 'Absen Masuk';
-String message = string.text.lbl_cek_koneksi_internet;
+String message = '';
 String nik = '';
 String onLocation = 'NOK';
+bool showToast = false;
 Location location = Location();
 Map<String, double> currentLocation;
 ProgressDialog pr;
@@ -93,6 +95,7 @@ class _Absen extends State<Absen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
+    pr = new ProgressDialog(context, ProgressDialogType.Normal);
     location.onLocationChanged().listen((value) {
       setState(() {
         currentLocation = value;
@@ -151,9 +154,10 @@ class _Absen extends State<Absen> {
   }
 
   _postAbsen() async {
-    //pr.show();
     onLocation = authLocation();
+    print(onLocation);
     if (onLocation == 'OK') {
+      pr.show();
       final uri = api.Api.absen;
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
@@ -174,24 +178,21 @@ class _Absen extends State<Absen> {
         encoding: encoding,
       );
 
-      //pr.hide();
+      pr.hide();
       final dataResponse = json.decode(response.body);
-      setState(() {
-        message = dataResponse['message'];
-      });
+      message = dataResponse['message'];
+      Toast.show(message, context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       getStatusMasuk();
-
     } else {
-      setState(() {
-        message = string.text.msg_lokasi_tidak_ada;
-      });
+      message = string.text.msg_lokasi_tidak_ada;
+      Toast.show(message, context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
@@ -208,8 +209,7 @@ class _Absen extends State<Absen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ConstrainedBox(
-                      constraints: BoxConstraints(
-                          minHeight: heightDevice),
+                      constraints: BoxConstraints(minHeight: heightDevice),
                       child: Container(
                         padding: EdgeInsets.only(
                             top: heightDevice * .1, bottom: heightDevice * .1),
@@ -233,8 +233,7 @@ class _Absen extends State<Absen> {
                                         style: TextStyle(
                                             fontSize: 24,
                                             color: Colors.white,
-                                            fontWeight:
-                                                FontWeight.bold)),
+                                            fontWeight: FontWeight.bold)),
                                   )
                                 ],
                               ),
@@ -245,76 +244,12 @@ class _Absen extends State<Absen> {
                                   Builder(
                                     builder: (context) => GestureDetector(
                                       onTap: () {
-                                        //pr.show();
                                         _postAbsen();
-                                        if (onLocation == true){
-                                          if (jenisAbsen == 'masuk') {
-                                            Future.delayed(
-                                                    Duration(milliseconds: 800))
-                                                .then((_) {
-                                              final snackBar = SnackBar(
-                                                  content: Text(message),
-                                                  action: SnackBarAction(
-                                                    label: 'OK',
-                                                    onPressed: () {
-                                                      // Some code to undo the change.
-                                                    },
-                                                  ));
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snackBar);
-                                            });
-                                          } else if (jenisAbsen == 'pulang') {
-                                            Future.delayed(
-                                                    Duration(milliseconds: 800))
-                                                .then((_) {
-                                              final snackBar = SnackBar(
-                                                  content: Text(message),
-                                                  action: SnackBarAction(
-                                                    label: 'OK',
-                                                    onPressed: () {
-                                                      // Some code to undo the change.
-                                                    },
-                                                  ));
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snackBar);
-                                            });
-                                          } else if (jenisAbsen == 'false') {
-                                            Future.delayed(
-                                                    Duration(milliseconds: 800))
-                                                .then((_) {
-                                              final snackBar = SnackBar(
-                                                  content: Text(message),
-                                                  action: SnackBarAction(
-                                                    label: 'OK',
-                                                    onPressed: () {
-                                                      // Some code to undo the change.
-                                                    },
-                                                  ));
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snackBar);
-                                            });
-                                          }
-                                        } else {
-                                          Future.delayed(
-                                                  Duration(milliseconds: 800))
-                                              .then((_) {
-                                            final snackBar = SnackBar(
-                                                content: Text(message),
-                                                action: SnackBarAction(
-                                                  label: 'OK',
-                                                  onPressed: () {
-                                                    // Some code to undo the change.
-                                                  },
-                                                ));
-                                            Scaffold.of(context)
-                                                .showSnackBar(snackBar);
-
-                                          });
-                                        }
                                       },
                                       child: Container(
                                         width: widthDevice,
-                                        child: Image.asset(string.text.uri_absen_masuk),
+                                        child: Image.asset(
+                                            string.text.uri_absen_masuk),
                                       ),
                                     ),
                                   ),
