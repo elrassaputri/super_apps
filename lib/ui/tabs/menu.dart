@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toast/toast.dart';
 import '../absen_page.dart';
 import '../main_menu_page.dart';
 import '../profile_page.dart';
+import 'package:super_apps/style/string.dart' as String;
 
 class Menu extends StatefulWidget{
   @override
@@ -15,6 +17,7 @@ class Menu extends StatefulWidget{
 
 class _Menu extends State<Menu>{
   int _selectedIndex = 0;
+  DateTime currentBackPressTime;
 
   Widget callPage(int selectedIndex) {
     switch (selectedIndex) {
@@ -40,9 +43,13 @@ class _Menu extends State<Menu>{
 
   @override
   Widget build(BuildContext context) {
+    DateTime currentBackPressTime;
 
     return Scaffold(
-      body: callPage(_selectedIndex),
+      body: WillPopScope(
+        child: callPage(_selectedIndex),
+        onWillPop: onWillPop,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -63,6 +70,18 @@ class _Menu extends State<Menu>{
         onTap: _onItemTapped,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Toast.show(String.text.msg_tap_again_to_exit, context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
 }

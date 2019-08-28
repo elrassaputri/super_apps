@@ -44,6 +44,7 @@ class text {
   static var hint_password= "";
 
   static var msg_lokasi_tidak_ada = "${lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
+  static var msg_tap_again_to_exit = "Tap back again to leave";
 
 //  URI Images
   static var uri_logo_ta_putih         = "assets/images/logo_ta_putih_nobwh.png";
