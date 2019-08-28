@@ -72,6 +72,9 @@ flutter:
     #icon main menu page
     - assets/icon/main_menu_page/
 
+    #Icon Apps
+    - assets/icon/apps/
+
     #Icon Profile Page
     - assets/icon/profile_page/
   # To add assets to your application, add an assets section, like this:

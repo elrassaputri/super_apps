@@ -30,7 +30,7 @@ Timer _timer;
             fontSize: 20.0
         ),
       ),
-      image: new Image.network('https://flutter.io/images/catalog-widget-placeholder.png'),
+      image: new Image.asset('assets/icon/apps/SUPERHANA_LOGO.png'),
       backgroundColor: Colors.white,
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: 100.0,
