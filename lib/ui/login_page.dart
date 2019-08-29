@@ -1,112 +1,195 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
+import 'package:dart_ping/dart_ping.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:super_apps/style//theme.dart' as Theme;
-import 'package:http/http.dart' as http;
+import 'package:imei_plugin/imei_plugin.dart';
+import 'package:location/location.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_apps/style//theme.dart' as theme;
+import 'package:super_apps/style//string.dart' as string;
+import 'package:super_apps/ui/tabs/menu.dart';
+import 'package:toast/toast.dart';
 import 'package:super_apps/api/api.dart' as api;
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
 
-  _LoginPageState createState() => new _LoginPageState();
+TextEditingController usernameController = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+BuildContext ctx;
+ProgressDialog pr;
+
+
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+class Login extends StatefulWidget {
+  Login({Key key}) : super(key: key);
+
+  _Login createState() => new _Login();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController usernameController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+void showInSnackBar(String value) {
+  _scaffoldKey.currentState
+      .showSnackBar(new SnackBar(content: new Text(value)));
+}
 
+class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    ctx = context;
+    getImei();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.Colors.backgroundLogin,
-      ),
-      body: Center(
-        child: Container(
-          color: Theme.Colors.backgroundLogin,
-          margin: const EdgeInsets.only(top: 0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: new Image(
-                    image: new AssetImage('assets/images/login_header.png')),
-                alignment: Alignment.center,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 50),
-                width: 300,
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                          hintText: "XXXXXXXX",
-                          icon: Icon(Icons.account_circle),
-                          hintStyle:
-                              TextStyle(color: Theme.Colors.colorTextWhite),
-                          labelText: "Username",
-                          fillColor: Theme.Colors.colorTextWhite,
-                          labelStyle:
-                              TextStyle(color: Theme.Colors.colorTextWhite)),
-                      keyboardType: TextInputType.text,
-                      controller: usernameController,
-                      style: TextStyle(color: Theme.Colors.colorTextWhite),
+      backgroundColor: theme.Colors.backgroundLogin,
+      key: _scaffoldKey,
+      body: CustomScrollView(slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.only(top: 30),
+                    child: new Image(
+                        image:
+                            new AssetImage(string.text.uri_login_header)),
+                    alignment: Alignment.center,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    width: 300,
+                    child: Column(
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(
+                              hintText: string.text.hint_text,
+                              icon: Icon(Icons.account_circle),
+                              hintStyle:
+                                  TextStyle(color: theme.Colors.colorTextWhite),
+                              labelText: string.text.lbl_username,
+                              fillColor: theme.Colors.colorTextWhite,
+                              labelStyle: TextStyle(
+                                  color: theme.Colors.colorTextWhite)),
+                          keyboardType: TextInputType.text,
+                          controller: usernameController,
+                          style: TextStyle(color: theme.Colors.colorTextWhite),
+                        ),
+                        TextField(
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.lock),
+                                hintText: string.text.hint_password,
+                                hintStyle: TextStyle(
+                                    color: theme.Colors.colorTextWhite),
+                                labelText: string.text.lbl_password,
+                                fillColor: theme.Colors.colorTextWhite,
+                                labelStyle: TextStyle(
+                                    color: theme.Colors.colorTextWhite)),
+                            obscureText: true,
+                            controller: passwordController,
+                            style:
+                                TextStyle(color: theme.Colors.colorTextWhite))
+                      ],
                     ),
-                    TextField(
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.lock),
-                            hintText: "********",
-                            hintStyle:
-                                TextStyle(color: Theme.Colors.colorTextWhite),
-                            labelText: "Password",
-                            fillColor: Theme.Colors.colorTextWhite,
-                            labelStyle:
-                                TextStyle(color: Theme.Colors.colorTextWhite)),
-                        obscureText: true,
-                        controller: passwordController,
-                        style: TextStyle(color: Theme.Colors.colorTextWhite))
-                  ],
-                ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    width: 150,
+                    child: Container(
+                      child: new RaisedButton(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        onPressed: () async {
+                          //pr.show();
+                          checkInternet(usernameController.text.toString(),
+                              passwordController.text.toString());
+                        },
+                        child: Text(string.text.lbl_login),
+                        color: theme.Colors.bacgroundButton,
+                        textColor: theme.Colors.colorTextWhite,
+                      ),
+                    ),
+                  )
+                ],
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                width: 150,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  onPressed: () async {
-                    makePostRequest();
-                  },
-                  child: Text("Login"),
-                  color: Theme.Colors.bacgroundButton,
-                  textColor: Theme.Colors.colorTextWhite,
-                ),
-              )
-            ],
-          ),
+            ),
+          ]),
         ),
-      ),
+      ]),
     );
   }
-}
 
-makePostRequest() async {
-  final uri = api.Api.app_login;
-  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  Map<String, dynamic> body = {'id': ''};
-  String jsonBody = json.encode(body);
-  final encoding = Encoding.getByName('utf-8');
+  Socket socket;
+  checkInternet(username,password)  {
+      makePostRequest(username,password);
+  }
 
-  Response response = await post(
-    uri,
-    headers: headers,
-    body: "id=2&test=3",
-    encoding: encoding,
-  );
 
-  int statusCode = response.statusCode;
-  String responseBody = response.body;
-  print(responseBody);
+  Future makePostRequest(username, password) async {
+    pr.show();
+    final uri = api.Api.login;
+    print("url ::" + uri + "/" + username);
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: "username=${username}&password=${password}",
+      encoding: encoding,
+    );
+
+      String responseBody = response.body;
+    bool status = json.decode(responseBody)["status"];
+    var message = json.decode(responseBody)["message"];
+    pr.hide();
+
+    if (status) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('username', username);
+      prefs.commit();
+      Navigator.pushAndRemoveUntil(
+          ctx, MaterialPageRoute(builder: (context) => new Menu()),
+          ModalRoute.withName("/Menu"));
+
+    } else {
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    }
+  }
+
+  Future Islogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var login = (prefs.getString("username") ?? '');
+    if (login != '') {
+      Navigator.pushAndRemoveUntil(
+          ctx, MaterialPageRoute(builder: (context) => new Menu()),
+          ModalRoute.withName("/Menu"));
+    }
+  }
+
+  Map<String, double> currentLocation;
+  Location location = Location();
+  String imei;
+  @override
+  void initState() {
+    super.initState();
+    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    Islogin();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
+  }
+
+  getImei() async {
+    var imeiId = await ImeiPlugin.getImei;
+    setState(() {
+      imei = imeiId;
+    });
+  }
+
 }

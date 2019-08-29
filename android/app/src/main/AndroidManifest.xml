@@ -8,8 +8,11 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="super_apps"
+        android:label="Super HANA"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyA219vCx1vUoAWeq8jlOtbX_zn4NPEH56k"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
