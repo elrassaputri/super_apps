@@ -258,8 +258,6 @@ class _MainMenuState extends State<MainMenu> {
                               );
                               break;
                             default:
-                              Toast.show("Menu Yang Tersedia Baru Human Capital", ctx,
-                                  duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                               return null ;
                               break;
                           }
@@ -307,15 +305,23 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
+    int is_notif= 0;
+    int versi = 0;
     for (int ini = 0; ini < data_profile.length; ini++) {
       setState(() {
         notif = data_profile[ini].notif;
         imgList = data_profile[ini].foto;
+        is_notif = data_profile[ini].is_notif;
+        versi = data_profile[ini].versi;
         print(imgList);
       });
     }
 
-    if(notif != "-"){
+
+    if(versi > int.parse(api.Api.versi)){
+      _showDialog(ctx,"Perbarui Aplikasi Anda melalui portal / playstore");
+    }
+    if(is_notif == 1){
       _showDialog(ctx,notif);
     }
   }
@@ -324,12 +330,17 @@ class _MainMenuState extends State<MainMenu> {
 class dataProfile {
   List foto;
   String notif;
+  int is_notif;
+  int versi;
 
-  dataProfile({this.foto, this.notif});
+
+  dataProfile({this.foto, this.notif,this.is_notif,this.versi});
 
   factory dataProfile.fromJson(Map<String, dynamic> parsedJson) {
     return dataProfile(
       foto: parsedJson['image_foto'],
+      is_notif: parsedJson['is_notif'],
+      versi: parsedJson['versi'],
       notif: parsedJson['notif'].toString(),
     );
   }
