@@ -14,7 +14,6 @@ import 'package:super_apps/style/string.dart' as string;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:steps/steps.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
@@ -25,10 +24,8 @@ String message = '';
 String nik = '';
 String onLocation = 'NOK';
 bool showToast = false;
-//Map<String, double> currentLocation;
 Location location = Location();
 Map<String, double> currentLocation;
-//var currentLocation = LocationData;
 ProgressDialog pr;
 
 class Absen extends StatefulWidget {
@@ -98,7 +95,7 @@ class _Absen extends State<Absen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
-    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
+    pr = new ProgressDialog(context, type: ProgressDialogType.Normal);
     location.onLocationChanged().listen((value) {
       setState(() {
         currentLocation = value;
@@ -120,7 +117,7 @@ class _Absen extends State<Absen> {
         headers: {"Accept": "application/json"});
 
     this.setState(() {
-      //data = json.decode(response.body);
+      data = json.decode(response.body);
     });
     _jenisAbsen();
   }
@@ -201,162 +198,198 @@ class _Absen extends State<Absen> {
     double heightDevice = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        body: Container(
-          alignment: Alignment.topCenter,
-          child: Steps(
-            direction: Axis.horizontal,
-            size: 10.0,
-            path: {'color': Colors.lightBlue.shade200, 'width': 3.0},
-            steps: [
-              {
-                'color': Colors.white,
-                'background': Colors.lightBlue.shade200,
-                'label': '1',
-                'content': Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Container(
+                color: theme.Colors.backgroundAbsen,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(
-                      'Laborum exercitation',
-                      style: TextStyle(fontSize: 22.0),
-                    ),
-                    Text(
-                      'Qui et consectetur esse duis excepteur magna consectetur.',
-                      style: TextStyle(fontSize: 12.0),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: heightDevice),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: heightDevice * .1, bottom: heightDevice * .1),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Container(
+                              child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3, // 20%
+                                          child: Center(
+                                            child: Text(
+                                                "Belum Absen", style: TextStyle(color: Colors.white)
+                                            )
+                                          )
+                                            //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: Text(" "),
+                                        ),
+                                        Expanded(
+                                          flex: 3, // 20%
+                                          child: Column(
+                                                children: <Widget>[
+                                                  Row(
+                                                      children: <Widget>[
+                                                          Container(
+                                                                child: Center(
+                                                                    child: Text("Absen Pulang",
+                                                                    style: TextStyle(color: Colors.white)),
+                                                                ),
+                                                          ),
+                                                      ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                          margin: EdgeInsets.only(left: 33.0),
+                                                          child: Text("16.00", style: TextStyle(color: Colors.white))
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                                left: 50.0,
+                                        ),
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xFFC1E4ED),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: new Container(
+                                            child: Divider(
+                                              thickness: 4,
+                                              color: Color(0xFFC1E4ED),
+                                              height: 36,
+                                            )),
+                                      ),
+                                      Container(
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xFFC1E4ED),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      //Text("OR", style: TextStyle(color: Colors.white)),
+                                      Expanded(
+                                        child: new Container(
+                                            child: Divider(
+                                              thickness: 3,
+                                              color: Color(0xFF31A5C4),
+                                              height: 36,
+                                            )),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 50.0
+                                        ),
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ]),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Center(
+                                              child: Text(
+                                                "Absen Masuk",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(color: Colors.white)
+                                              ),
+                                            )
+                                        ),
+                                        //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Center(
+                                              child: Text(
+                                                  "08.00",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(color: Colors.white)
+                                              ),
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                              ),
+                            ),
+                            Container(
+                              padding:  EdgeInsets.only(top: 60),
+                              //height: 20.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Builder(
+                                    builder: (context) => GestureDetector(
+                                      onTap: () {
+                                        _postAbsen();
+                                      },
+                                      child: Container(
+                                        width: widthDevice,
+                                        child: Image.asset(
+                                            string.text.uri_absen_masuk),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+//                            Container(
+//                              child: Row(
+//                                mainAxisAlignment: MainAxisAlignment.center,
+//                                children: <Widget>[
+//                                  Container(
+//                                    margin: EdgeInsets.only(top: 32),
+//                                    child: Text(absenTitle,
+//                                        style: TextStyle(
+//                                            fontSize: 24,
+//                                            color: Colors.white,
+//                                            fontWeight: FontWeight.bold)),
+//                                  )
+//                                ],
+//                              ),
+//                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              },
-              {
-                'color': Colors.white,
-                'background': Colors.lightBlue.shade700,
-                'label': '2',
-                'content': Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Laborum exercitation est veniam',
-                      style: TextStyle(fontSize: 22.0),
-                    ),
-                    Image.asset(
-                      'assets/cat.jpg',
-                      width: 250,
-                      height: 120,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.center,
-                    ),
-                    Text(
-                      '''
-                        Occaecat qui do mollit
-                        Adipisicing reprehenderit deserunt mollit
-                        Quis officia adipisicing aute
-                      ''',
-                      style: TextStyle(fontSize: 12.0),
-                    )
-                  ],
-                )
-              },
-              {
-                'color': Colors.white,
-                'background': Colors.lightBlue.shade200,
-                'label': '3',
-                'content': Image.asset(
-                  'assets/art.jpg',
-                  width: 250,
-                  height: 120,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                ),
-              }
-            ],
-          ),
-        )
-      );
-
-    // return Scaffold(
-    //   body: CustomScrollView(
-    //     slivers: <Widget>[
-    //       SliverList(
-    //         delegate: SliverChildListDelegate([
-    //           Container(
-    //             color: theme.Colors.backgroundAbsen,
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.center,
-    //               mainAxisAlignment: MainAxisAlignment.end,
-    //               children: <Widget>[
-    //                 ConstrainedBox(
-    //                   constraints: BoxConstraints(minHeight: heightDevice),
-    //                   child: Container(
-    //                     padding: EdgeInsets.only(
-    //                         top: heightDevice * .1, bottom: heightDevice * .1),
-    //                     child: Column(
-    //                       crossAxisAlignment: CrossAxisAlignment.center,
-    //                       mainAxisSize: MainAxisSize.max,
-    //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                       children: <Widget>[
-    //                         Container(
-    //                           padding: EdgeInsets.only(
-    //                               left: widthDevice * .05,
-    //                               right: widthDevice * .05),
-    //                           child: Row(
-    //                             crossAxisAlignment: CrossAxisAlignment.center,
-    //                             mainAxisAlignment:
-    //                                 MainAxisAlignment.spaceBetween,
-    //                             children: <Widget>[
-    //                               _statusOnLocation(),
-    //                               Container(
-    //                                 child: Text(_timeString,
-    //                                     style: TextStyle(
-    //                                         fontSize: 24,
-    //                                         color: Colors.white,
-    //                                         fontWeight: FontWeight.bold)),
-    //                               )
-    //                             ],
-    //                           ),
-    //                         ),
-    //                         Container(
-    //                           child: Row(
-    //                             children: <Widget>[
-    //                               Builder(
-    //                                 builder: (context) => GestureDetector(
-    //                                   onTap: () {
-    //                                     _postAbsen();
-    //                                   },
-    //                                   child: Container(
-    //                                     width: widthDevice,
-    //                                     child: Image.asset(
-    //                                         string.text.uri_absen_masuk),
-    //                                   ),
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ),
-    //                         Container(
-    //                           child: Row(
-    //                             mainAxisAlignment: MainAxisAlignment.center,
-    //                             children: <Widget>[
-    //                               Container(
-    //                                 margin: EdgeInsets.only(top: 32),
-    //                                 child: Text(absenTitle,
-    //                                     style: TextStyle(
-    //                                         fontSize: 24,
-    //                                         color: Colors.white,
-    //                                         fontWeight: FontWeight.bold)),
-    //                               )
-    //                             ],
-    //                           ),
-    //                         ),
-    //                       ],
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ]),
-    //       )
-    //     ],
-    //   ),
-    // );
+              ),
+            ]),
+          )
+        ],
+      ),
+    );
   }
 }
