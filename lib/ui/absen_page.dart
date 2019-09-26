@@ -14,6 +14,7 @@ import 'package:super_apps/style/string.dart' as string;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:steps/steps.dart';
 
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
@@ -24,8 +25,10 @@ String message = '';
 String nik = '';
 String onLocation = 'NOK';
 bool showToast = false;
+//Map<String, double> currentLocation;
 Location location = Location();
 Map<String, double> currentLocation;
+//var currentLocation = LocationData;
 ProgressDialog pr;
 
 class Absen extends StatefulWidget {
@@ -49,7 +52,7 @@ class _Absen extends State<Absen> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });
@@ -95,7 +98,7 @@ class _Absen extends State<Absen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
-    pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     location.onLocationChanged().listen((value) {
       setState(() {
         currentLocation = value;
@@ -117,7 +120,7 @@ class _Absen extends State<Absen> {
         headers: {"Accept": "application/json"});
 
     this.setState(() {
-      data = json.decode(response.body);
+      //data = json.decode(response.body);
     });
     _jenisAbsen();
   }
@@ -198,90 +201,162 @@ class _Absen extends State<Absen> {
     double heightDevice = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Container(
-                color: theme.Colors.backgroundAbsen,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+        body: Container(
+          alignment: Alignment.topCenter,
+          child: Steps(
+            direction: Axis.horizontal,
+            size: 10.0,
+            path: {'color': Colors.lightBlue.shade200, 'width': 3.0},
+            steps: [
+              {
+                'color': Colors.white,
+                'background': Colors.lightBlue.shade200,
+                'label': '1',
+                'content': Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: heightDevice),
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            top: heightDevice * .1, bottom: heightDevice * .1),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: widthDevice * .05,
-                                  right: widthDevice * .05),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  _statusOnLocation(),
-                                  Container(
-                                    child: Text(_timeString,
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Builder(
-                                    builder: (context) => GestureDetector(
-                                      onTap: () {
-                                        _postAbsen();
-                                      },
-                                      child: Container(
-                                        width: widthDevice,
-                                        child: Image.asset(
-                                            string.text.uri_absen_masuk),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(top: 32),
-                                    child: Text(absenTitle,
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    Text(
+                      'Laborum exercitation',
+                      style: TextStyle(fontSize: 22.0),
+                    ),
+                    Text(
+                      'Qui et consectetur esse duis excepteur magna consectetur.',
+                      style: TextStyle(fontSize: 12.0),
                     ),
                   ],
                 ),
-              ),
-            ]),
-          )
-        ],
-      ),
-    );
+              },
+              {
+                'color': Colors.white,
+                'background': Colors.lightBlue.shade700,
+                'label': '2',
+                'content': Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Laborum exercitation est veniam',
+                      style: TextStyle(fontSize: 22.0),
+                    ),
+                    Image.asset(
+                      'assets/cat.jpg',
+                      width: 250,
+                      height: 120,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
+                    Text(
+                      '''
+                        Occaecat qui do mollit
+                        Adipisicing reprehenderit deserunt mollit
+                        Quis officia adipisicing aute
+                      ''',
+                      style: TextStyle(fontSize: 12.0),
+                    )
+                  ],
+                )
+              },
+              {
+                'color': Colors.white,
+                'background': Colors.lightBlue.shade200,
+                'label': '3',
+                'content': Image.asset(
+                  'assets/art.jpg',
+                  width: 250,
+                  height: 120,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
+              }
+            ],
+          ),
+        )
+      );
+
+    // return Scaffold(
+    //   body: CustomScrollView(
+    //     slivers: <Widget>[
+    //       SliverList(
+    //         delegate: SliverChildListDelegate([
+    //           Container(
+    //             color: theme.Colors.backgroundAbsen,
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.center,
+    //               mainAxisAlignment: MainAxisAlignment.end,
+    //               children: <Widget>[
+    //                 ConstrainedBox(
+    //                   constraints: BoxConstraints(minHeight: heightDevice),
+    //                   child: Container(
+    //                     padding: EdgeInsets.only(
+    //                         top: heightDevice * .1, bottom: heightDevice * .1),
+    //                     child: Column(
+    //                       crossAxisAlignment: CrossAxisAlignment.center,
+    //                       mainAxisSize: MainAxisSize.max,
+    //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                       children: <Widget>[
+    //                         Container(
+    //                           padding: EdgeInsets.only(
+    //                               left: widthDevice * .05,
+    //                               right: widthDevice * .05),
+    //                           child: Row(
+    //                             crossAxisAlignment: CrossAxisAlignment.center,
+    //                             mainAxisAlignment:
+    //                                 MainAxisAlignment.spaceBetween,
+    //                             children: <Widget>[
+    //                               _statusOnLocation(),
+    //                               Container(
+    //                                 child: Text(_timeString,
+    //                                     style: TextStyle(
+    //                                         fontSize: 24,
+    //                                         color: Colors.white,
+    //                                         fontWeight: FontWeight.bold)),
+    //                               )
+    //                             ],
+    //                           ),
+    //                         ),
+    //                         Container(
+    //                           child: Row(
+    //                             children: <Widget>[
+    //                               Builder(
+    //                                 builder: (context) => GestureDetector(
+    //                                   onTap: () {
+    //                                     _postAbsen();
+    //                                   },
+    //                                   child: Container(
+    //                                     width: widthDevice,
+    //                                     child: Image.asset(
+    //                                         string.text.uri_absen_masuk),
+    //                                   ),
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ),
+    //                         Container(
+    //                           child: Row(
+    //                             mainAxisAlignment: MainAxisAlignment.center,
+    //                             children: <Widget>[
+    //                               Container(
+    //                                 margin: EdgeInsets.only(top: 32),
+    //                                 child: Text(absenTitle,
+    //                                     style: TextStyle(
+    //                                         fontSize: 24,
+    //                                         color: Colors.white,
+    //                                         fontWeight: FontWeight.bold)),
+    //                               )
+    //                             ],
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ]),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }
