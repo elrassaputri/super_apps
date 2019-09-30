@@ -219,23 +219,129 @@ class _Absen extends State<Absen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(
-                                  left: widthDevice * .05,
-                                  right: widthDevice * .05),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  _statusOnLocation(),
-                                  Container(
-                                    child: Text(_timeString,
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                ],
+                              child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3, // 20%
+                                          child: Center(
+                                            child: Text(
+                                                "Belum Absen", style: TextStyle(color: Colors.white)
+                                            )
+                                          )
+                                            //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: Text(" "),
+                                        ),
+                                        Expanded(
+                                          flex: 3, // 20%
+                                          child: Column(
+                                                children: <Widget>[
+                                                  Row(
+                                                      children: <Widget>[
+                                                          Container(
+                                                                child: Center(
+                                                                    child: Text("Absen Pulang",
+                                                                    style: TextStyle(color: Colors.white)),
+                                                                ),
+                                                          ),
+                                                      ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Container(
+                                                          margin: EdgeInsets.only(left: 33.0),
+                                                          child: Text("16.00", style: TextStyle(color: Colors.white))
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                                left: 50.0,
+                                        ),
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xFFC1E4ED),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: new Container(
+                                            child: Divider(
+                                              thickness: 4,
+                                              color: Color(0xFFC1E4ED),
+                                              height: 36,
+                                            )),
+                                      ),
+                                      Container(
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xFFC1E4ED),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      //Text("OR", style: TextStyle(color: Colors.white)),
+                                      Expanded(
+                                        child: new Container(
+                                            child: Divider(
+                                              thickness: 3,
+                                              color: Color(0xFF31A5C4),
+                                              height: 36,
+                                            )),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 50.0
+                                        ),
+                                        width: 20.0,
+                                        height: 20.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ]),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Center(
+                                              child: Text(
+                                                "Absen Masuk",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(color: Colors.white)
+                                              ),
+                                            )
+                                        ),
+                                        //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Center(
+                                              child: Text(
+                                                  "08.00",
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(color: Colors.white)
+                                              ),
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                               ),
                             ),
                             Container(
@@ -256,21 +362,7 @@ class _Absen extends State<Absen> {
                                 ],
                               ),
                             ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(top: 32),
-                                    child: Text(absenTitle,
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                ],
-                              ),
-                            ),
+                            
                           ],
                         ),
                       ),
